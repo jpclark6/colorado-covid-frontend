@@ -56,7 +56,7 @@ export default {
 
         yAxis: {
           title: {
-            text: 'Number of New Daily COVID-19 Cases'
+            text: 'New Daily COVID-19 Cases'
           }
         },
 

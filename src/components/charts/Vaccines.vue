@@ -30,7 +30,6 @@ export default {
           y: day.daily_qty
         }
       ));
-
       let formattedVaccinesHistory = []
       vaccinesHistory.forEach(day => formattedVaccinesHistory.push(
         {
@@ -60,11 +59,12 @@ export default {
 
         yAxis: {
           title: {
-            text: 'Number of Vaccines Given Daily'
+            text: 'Vaccines Given Daily'
           }
         },
 
         xAxis: {
+          min: 1607904000000,
           type: 'datetime',
           title: {
             text: 'Reporting Date'

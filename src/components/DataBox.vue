@@ -1,6 +1,18 @@
 <template>
   <div class="dataTable">
-    <v-simple-table class="text-left ">
+    <v-simple-table class="text-left" dense>
+        <thead>
+          <tr>
+            <th >
+            </th>
+            <th >
+              Actual
+            </th>
+            <th >
+              7-day Average
+            </th>
+          </tr>
+        </thead>
         <tbody>
           <tr
             v-for="item in items"
@@ -8,6 +20,7 @@
           >
             <td>{{ item.description }}</td>
             <td>{{ item.value }}</td>
+            <td>{{ item.ave_value }}</td>
           </tr>
         </tbody>
     </v-simple-table>
@@ -21,7 +34,6 @@ export default {
   props: ['items'],
   watch: {
     items: function(newVar, oldVar) {
-      console.log("IT triggered")
       this.items = newVar
     }
   }

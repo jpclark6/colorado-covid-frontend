@@ -59,10 +59,10 @@ export default {
 
         yAxis: {
           title: {
-            text: 'Number of New Hospitalizations'
+            text: 'New Hospitalizations'
           },
           min: 0,
-          max: 400
+          max: 250
         },
 
         xAxis: {

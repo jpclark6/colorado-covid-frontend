@@ -23,7 +23,6 @@ export default {
     },
     drawDeaths(casesAverage, casesHistory) {
       let formattedCasesAverage = []
-      console.log(casesAverage)
       casesAverage.forEach(day => formattedCasesAverage.push(
         {
           x: Date.parse(day.reporting_date),
@@ -60,10 +59,10 @@ export default {
 
         yAxis: {
           title: {
-            text: 'Number of New Deaths'
+            text: 'New Deaths'
           },
           min: 0,
-          max: 150
+          max: 125
         },
 
         xAxis: {

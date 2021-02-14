@@ -10,11 +10,19 @@
       <div>Loading data</div>
       </div>
     <div v-show="trigger">
-      <DataBox :items="casesData"/>
+      <p>Data updated daily at 6pm</p>
+      <div class="d-flex justify-center d-md-flex flex-wrap">
+        <div class="databox">
+          <DataBox :items="casesData" />
+        </div>
+        <div class="databox">
+          <DataBox :items="vaccinesData" />
+        </div>
+      </div>
       <Vaccines :readyToChart="trigger" :covidData="covidData"/>
       <Cases :readyToChart="trigger" :covidData="covidData"/>
-      <Hospitalized :readyToChart="trigger" :covidData="covidData"/>
       <Deaths :readyToChart="trigger" :covidData="covidData"/>
+      <Hospitalized :readyToChart="trigger" :covidData="covidData"/>
     </div>
   </div>
 </template>
@@ -36,38 +44,42 @@ export default {
     Deaths,
     DataBox
   },
+
   data() {
     return {
       casesData: [],
+      vaccinesData: [],
+      hospitalData: [],
+      deathData: [],
       trigger: false,
       covidData: {}
     }
   },
   created() {
     this.getData()
-    this.calculateCasesData()
   },
   methods: {
     getData() {
       (async () => {
         try {
-          const [vaccinesAverageRes, vaccinesHistoryRes, casesAverageRes, casesHistoryRes] = await axios.all([
-            axios.get('https://okvn4rtq0k.execute-api.us-east-1.amazonaws.com/Prod/vaccines_average/'),
-            axios.get('https://okvn4rtq0k.execute-api.us-east-1.amazonaws.com/Prod/vaccines_history/'),
-            axios.get('https://okvn4rtq0k.execute-api.us-east-1.amazonaws.com/Prod/cases_average/'),
-            axios.get('https://okvn4rtq0k.execute-api.us-east-1.amazonaws.com/Prod/cases_history/')
+          const [allData] = await axios.all([
+            axios.get('https://okvn4rtq0k.execute-api.us-east-1.amazonaws.com/Prod/data/')
           ]);
-          const vaccinesAverage = vaccinesAverageRes.data
-          const vaccinesHistory = vaccinesHistoryRes.data
-          const casesAverage = casesAverageRes.data
-          const casesHistory = casesHistoryRes.data
-      
+
+          const vaccinesAverage = allData.data.data.ave_vaccines
+          const vaccinesHistory = allData.data.data.daily_vaccines
+          const casesAverage = allData.data.data.ave_cases
+          const casesHistory = allData.data.data.daily_cases
+
           this.covidData = {
             vaccinesAverage,
             vaccinesHistory,
             casesAverage,
             casesHistory
           }
+
+          this.calculateCasesData()
+          this.calculateVaccinesData()
           this.trigger = true
         } catch (error) {
           console.log(error);
@@ -75,11 +87,38 @@ export default {
       })();
     },
     calculateCasesData() {
+      const today_date = this.covidData.casesHistory[this.covidData.casesHistory.length - 1].reporting_date
+      const yesterday_date = this.covidData.casesHistory[this.covidData.casesHistory.length - 2].reporting_date
+      const week_ago_date = this.covidData.casesHistory[this.covidData.casesHistory.length - 7].reporting_date
+
+      const today = this.covidData.casesHistory[this.covidData.casesHistory.length - 1].positive_increase
+      const yesterday = this.covidData.casesHistory[this.covidData.casesHistory.length - 2].positive_increase
+      const week_ago = this.covidData.casesHistory[this.covidData.casesHistory.length - 7].positive_increase
+
+      const today_ave = this.covidData.casesAverage[this.covidData.casesAverage.length - 1].positive_increase
+      const yesterday_ave = this.covidData.casesAverage[this.covidData.casesAverage.length - 2].positive_increase
+      const week_ago_ave = this.covidData.casesAverage[this.covidData.casesAverage.length - 7].positive_increase
+
       this.casesData = [
-          {description: "Vaccines today", value: 42},
-          {description: "Vaccines yesterday", value: 87},
-          {description: `Vaccines a week ago`, value: 87},
-        ]
+        {description: "Cases today", value: today, ave_value: today_ave},
+        {description: "Cases yesterday", value: yesterday, ave_value: yesterday_ave},
+        {description: "Cases a week ago", value: week_ago, ave_value: week_ago_ave},
+      ]
+    },
+    calculateVaccinesData() {
+      const today = this.covidData.vaccinesHistory[this.covidData.vaccinesHistory.length - 1].daily_qty
+      const yesterday = this.covidData.vaccinesHistory[this.covidData.vaccinesHistory.length - 2].daily_qty
+      const week_ago = this.covidData.vaccinesHistory[this.covidData.vaccinesHistory.length - 7].daily_qty
+
+      const today_ave = this.covidData.vaccinesAverage[this.covidData.vaccinesAverage.length - 1].daily_qty
+      const yesterday_ave = this.covidData.vaccinesAverage[this.covidData.vaccinesAverage.length - 2].daily_qty
+      const week_ago_ave = this.covidData.vaccinesAverage[this.covidData.vaccinesAverage.length - 7].daily_qty
+
+      this.vaccinesData = [
+        {description: "Vaccines today", value: today, ave_value: today_ave},
+        {description: "Vaccines yesterday", value: yesterday, ave_value: yesterday_ave},
+        {description: `Vaccines a week ago`, value: week_ago, ave_value: week_ago_ave},
+      ]
     }
   }
 }
@@ -123,30 +162,8 @@ export default {
   margin: 1rem;
   text-align: center;
 }
-
-/* .lds-dual-ring {
-  display: inline-block;
-  width: 80px;
-  height: 80px;
+.databox {
+  margin: 0 10px;
 }
-.lds-dual-ring:after {
-  content: " ";
-  display: block;
-  width: 64px;
-  height: 64px;
-  margin: 8px;
-  border-radius: 50%;
-  border: 6px solid #fff;
-  border-color: #fff transparent #fff transparent;
-  animation: lds-dual-ring 1.2s linear infinite;
-}
-@keyframes lds-dual-ring {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-} */
 
 </style>
