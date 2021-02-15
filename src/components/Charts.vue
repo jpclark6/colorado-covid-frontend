@@ -1,21 +1,21 @@
 <template>
   <div class="text-center">
     <div v-show="!trigger">
-    <v-progress-circular
+      <v-progress-circular
         indeterminate
         color="primary"
         :size="70"
         :width="7"
       ></v-progress-circular>
       <div>Loading data</div>
-      </div>
+    </div>
     <div v-show="trigger">
       <p>Data updated daily at 6pm MST*</p>
       <div class="d-flex justify-center d-md-flex flex-wrap">
-        <div class="databox">
+        <div class="mx-5">
           <DataBox :items="casesData" />
         </div>
-        <div class="databox">
+        <div class="mx-5">
           <DataBox :items="vaccinesData" />
         </div>
       </div>
@@ -43,13 +43,11 @@ import Cases from './charts/Cases.vue'
 import Hospitalized from './charts/Hospitalized.vue'
 import Deaths from './charts/Deaths.vue'
 import DataBox from './DataBox.vue'
-
-function numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
+import { numberWithCommas } from '../utils/formatting.js'
 
 export default {
   name: 'Charts',
+
   components: {
     Vaccines,
     VaccinePie,
@@ -69,9 +67,11 @@ export default {
       covidData: {}
     }
   },
+
   created() {
     this.getData()
   },
+
   methods: {
     getData() {
       (async () => {
@@ -100,18 +100,18 @@ export default {
         }
       })();
     },
+
     calculateCasesData() {
-      const today_date = this.covidData.casesHistory[this.covidData.casesHistory.length - 1].reporting_date
-      const yesterday_date = this.covidData.casesHistory[this.covidData.casesHistory.length - 2].reporting_date
-      const week_ago_date = this.covidData.casesHistory[this.covidData.casesHistory.length - 7].reporting_date
+      const casesHistory = this.covidData.casesHistory
+      const casesAverage = this.covidData.casesAverage
 
-      const today = numberWithCommas(this.covidData.casesHistory[this.covidData.casesHistory.length - 1].positive_increase)
-      const yesterday = numberWithCommas(this.covidData.casesHistory[this.covidData.casesHistory.length - 2].positive_increase)
-      const week_ago = numberWithCommas(this.covidData.casesHistory[this.covidData.casesHistory.length - 7].positive_increase)
+      const today = numberWithCommas(casesHistory[casesHistory.length - 1].positive_increase)
+      const yesterday = numberWithCommas(casesHistory[casesHistory.length - 2].positive_increase)
+      const week_ago = numberWithCommas(casesHistory[casesHistory.length - 7].positive_increase)
 
-      const today_ave = numberWithCommas(this.covidData.casesAverage[this.covidData.casesAverage.length - 1].positive_increase)
-      const yesterday_ave = numberWithCommas(this.covidData.casesAverage[this.covidData.casesAverage.length - 2].positive_increase)
-      const week_ago_ave = numberWithCommas(this.covidData.casesAverage[this.covidData.casesAverage.length - 7].positive_increase)
+      const today_ave = numberWithCommas(casesAverage[casesAverage.length - 1].positive_increase)
+      const yesterday_ave = numberWithCommas(casesAverage[casesAverage.length - 2].positive_increase)
+      const week_ago_ave = numberWithCommas(casesAverage[casesAverage.length - 7].positive_increase)
 
       this.casesData = {
         "headers": ["Actual", "7-day Average"],
@@ -122,14 +122,18 @@ export default {
         ]
       }
     },
-    calculateVaccinesData() {
-      const today = numberWithCommas(this.covidData.vaccinesHistory[this.covidData.vaccinesHistory.length - 1].daily_qty)
-      const yesterday = numberWithCommas(this.covidData.vaccinesHistory[this.covidData.vaccinesHistory.length - 2].daily_qty)
-      const week_ago = numberWithCommas(this.covidData.vaccinesHistory[this.covidData.vaccinesHistory.length - 7].daily_qty)
 
-      const today_ave = numberWithCommas(this.covidData.vaccinesAverage[this.covidData.vaccinesAverage.length - 1].daily_qty)
-      const yesterday_ave = numberWithCommas(this.covidData.vaccinesAverage[this.covidData.vaccinesAverage.length - 2].daily_qty)
-      const week_ago_ave = numberWithCommas(this.covidData.vaccinesAverage[this.covidData.vaccinesAverage.length - 7].daily_qty)
+    calculateVaccinesData() {
+      const vaccinesHistory = this.covidData.vaccinesHistory
+      const vaccinesAverage = this.covidData.vaccinesAverage
+
+      const today = numberWithCommas(vaccinesHistory[vaccinesHistory.length - 1].daily_qty)
+      const yesterday = numberWithCommas(vaccinesHistory[vaccinesHistory.length - 2].daily_qty)
+      const week_ago = numberWithCommas(vaccinesHistory[vaccinesHistory.length - 7].daily_qty)
+
+      const today_ave = numberWithCommas(vaccinesAverage[vaccinesAverage.length - 1].daily_qty)
+      const yesterday_ave = numberWithCommas(vaccinesAverage[vaccinesAverage.length - 2].daily_qty)
+      const week_ago_ave = numberWithCommas(vaccinesAverage[vaccinesAverage.length - 7].daily_qty)
 
       this.vaccinesData = {
         "headers": ["Actual", "7-day Average"],
@@ -150,7 +154,6 @@ export default {
   max-width: 800px;
   margin: 1em auto;
 }
-
 .highcharts-data-table table {
 	font-family: Verdana, sans-serif;
 	border-collapse: collapse;
@@ -182,8 +185,4 @@ export default {
   margin: 1rem;
   text-align: center;
 }
-.databox {
-  margin: 0 10px;
-}
-
 </style>

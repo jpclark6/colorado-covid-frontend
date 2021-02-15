@@ -1,26 +1,23 @@
 <template>
-  <!-- <div class="lds-dual-ring"></div> -->
   <div id="deathsContainer"></div>
 </template>
 
 <script>
 var Highcharts = require('highcharts');  
 require('highcharts/modules/exporting')(Highcharts);
-const axios = require('axios');
 
 const lightColor = "#e6e6ff";
 const darkColor = "#0000cc";
 
-
-
-
 export default {
   name: 'Deaths',
+
   methods: {
     drawHighCharts(data) {
       const {casesAverage, casesHistory} = this.covidData
       this.drawDeaths(casesAverage, casesHistory)
     },
+
     drawDeaths(casesAverage, casesHistory) {
       let formattedCasesAverage = []
       casesAverage.forEach(day => formattedCasesAverage.push(
@@ -91,9 +88,9 @@ export default {
           data: formattedCasesHistory,
           color: lightColor
         }, {
-            name: 'Ave Daily New Deaths',
-            data: formattedCasesAverage,
-            color: darkColor
+          name: 'Ave Daily New Deaths',
+          data: formattedCasesAverage,
+          color: darkColor
         }],
 
         responsive: {
@@ -112,8 +109,13 @@ export default {
         }
       })
     }
-  },  
-  props: ['covidData', 'readyToChart'],
+  },
+
+  props: [
+    'covidData', 
+    'readyToChart'
+  ],
+
   watch: {
     readyToChart: function(newVar, oldVar) {
       this.drawHighCharts()
@@ -121,10 +123,3 @@ export default {
   }
 }
 </script>
-
-<style>
-
-</style>
-
-
-

@@ -11,23 +11,19 @@
 
 <script>
 var Highcharts = require('highcharts');
-import DataBox from '../DataBox.vue'
 require('highcharts/modules/exporting')(Highcharts);
-const axios = require('axios');
+import DataBox from '../DataBox.vue'
+import { numberWithCommas } from '../../utils/formatting.js'
 
 const unvaccinatedColor = "#e6e6ff";
-// const oneDoseColor = "#0000cc";
 const oneDoseColor = "#a199ff";
 const twoDosesColor = "#00ff15";
 
-function numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
-
-
 export default {
   name: 'VaccinePie',
+
   components: {DataBox},
+
   methods: {
     drawHighCharts() {
       const {vaccinesHistory, casesHistory} = this.covidData
@@ -41,12 +37,6 @@ export default {
       const one_dose_percentage = one_dose / population
       const two_doses_percentage = two_doses / population
       const unvaccinated = (population - one_dose - two_doses) / population
-
-      const one_dose_week_ago = vaccinesHistory[vaccinesHistory.length - 8].one_dose_total
-      const two_doses_week_ago = vaccinesHistory[vaccinesHistory.length - 8].two_doses_total
-      const one_dose_percentage_week_ago = one_dose_week_ago / population
-      const two_doses_percentage_week_ago = two_doses_week_ago / population
-      const unvaccinated_week_ago = (population - one_dose_week_ago - two_doses_week_ago) / population
 
       Highcharts.setOptions({
         lang: {
@@ -123,17 +113,23 @@ export default {
       }
     }
   },
-  props: ['covidData', 'readyToChart'],
+
+  props: [
+    'covidData',
+    'readyToChart'
+  ],
+
   watch: {
     readyToChart: function(newVar, oldVar) {
       this.drawHighCharts()
     }
   },
+
   data() {
     return {
       vaccineStats: []
     }
-  },
+  }
 }
 </script>
 
@@ -143,7 +139,6 @@ export default {
     max-width: 800px;
     margin: 1em auto;
 }
-
 .highcharts-data-table table {
 	font-family: Verdana, sans-serif;
 	border-collapse: collapse;
@@ -171,8 +166,6 @@ export default {
 .highcharts-data-table tr:hover {
     background: #f1f7ff;
 }
-
-
 input[type="number"] {
 	min-width: 50px;
 }

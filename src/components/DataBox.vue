@@ -45,6 +45,4 @@ li {
   border-radius: 5px;
   max-width: 25rem;
 }
-
-
 </style>

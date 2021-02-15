@@ -1,5 +1,4 @@
 <template>
-  <!-- <div class="lds-dual-ring"></div> -->
   <div id="vaccinesContainer"></div>
 </template>
 
@@ -10,14 +9,15 @@ require('highcharts/modules/exporting')(Highcharts);
 const lightColor = "#e6e6ff";
 const darkColor = "#0000cc";
 
-
 export default {
   name: 'Vaccines',
+
   methods: {
     drawHighCharts() {
       const {vaccinesAverage, vaccinesHistory} = this.covidData
       this.drawVaccines(vaccinesAverage, vaccinesHistory)
     },
+
     drawVaccines(vaccinesAverage, vaccinesHistory) {
       let formattedVaccinesAverage = []
       vaccinesAverage.forEach(day => formattedVaccinesAverage.push(
@@ -108,7 +108,12 @@ export default {
       })
     }
   },
-  props: ['covidData', 'readyToChart'],
+
+  props: [
+    'covidData',
+    'readyToChart'
+  ],
+
   watch: {
     readyToChart: function(newVar, oldVar) {
       this.drawHighCharts()
@@ -116,7 +121,3 @@ export default {
   }
 }
 </script>
-
-<style>
-
-</style>

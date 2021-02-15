@@ -1,21 +1,17 @@
 <template>
-  <!-- <div class="lds-dual-ring"></div> -->
   <div id="hospitalizedContainer"></div>
 </template>
 
 <script>
 var Highcharts = require('highcharts');  
 require('highcharts/modules/exporting')(Highcharts);
-const axios = require('axios');
 
 const lightColor = "#e6e6ff";
 const darkColor = "#0000cc";
 
-
-
-
 export default {
   name: 'Hospitalized',
+
   methods: {
     drawHighCharts() {
       const {casesAverage, casesHistory} = this.covidData
@@ -113,7 +109,12 @@ export default {
       })
     }
   },
-  props: ['covidData', 'readyToChart'],
+
+  props: [
+    'covidData',
+    'readyToChart'
+  ],
+
   watch: {
     readyToChart: function(newVar, oldVar) {
       this.drawHighCharts()
@@ -121,10 +122,3 @@ export default {
   }
 }
 </script>
-
-<style>
-
-</style>
-
-
-
