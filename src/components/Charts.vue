@@ -10,7 +10,7 @@
       <div>Loading data</div>
       </div>
     <div v-show="trigger">
-      <p>Data updated daily at 6pm</p>
+      <p>Data updated daily at 6pm MST*</p>
       <div class="d-flex justify-center d-md-flex flex-wrap">
         <div class="databox">
           <DataBox :items="casesData" />
@@ -19,17 +19,26 @@
           <DataBox :items="vaccinesData" />
         </div>
       </div>
-      <Vaccines :readyToChart="trigger" :covidData="covidData"/>
-      <Cases :readyToChart="trigger" :covidData="covidData"/>
-      <Deaths :readyToChart="trigger" :covidData="covidData"/>
-      <Hospitalized :readyToChart="trigger" :covidData="covidData"/>
+      <VaccinePie class="mb-8 mt-4" :readyToChart="trigger" :covidData="covidData"/>
+      <Vaccines class="mb-8" :readyToChart="trigger" :covidData="covidData"/>
+      <Cases class="mb-8" :readyToChart="trigger" :covidData="covidData"/>
+      <Deaths class="mb-8" :readyToChart="trigger" :covidData="covidData"/>
+      <Hospitalized class="mb-8" :readyToChart="trigger" :covidData="covidData"/>
     </div>
+    <p class="mx-6">*Vaccine data is typically released at 4pm for the previous day. So at 2pm on a Wednesday "Today" will
+      be for Monday's vaccine data, while at 7pm will be for Tuesday's data. Cases are released on the day of, 
+      so before 6pm "Today" is equal to yesterday's data, after 6pm it is equal to today's data.
+    </p>
+    <p>Sources:</p>
+    <p>Cases - <a href="https://covid19.colorado.gov/data">https://covid19.colorado.gov/data</a></p>
+    <p>Vaccines - <a href="https://covid19.colorado.gov/vaccine-data-dashboard">https://covid19.colorado.gov/vaccine-data-dashboard</a></p>
   </div>
 </template>
 
 <script>
 const axios = require('axios');
 import Vaccines from './charts/Vaccines.vue'
+import VaccinePie from './charts/VaccinePie.vue'
 import Cases from './charts/Cases.vue'
 import Hospitalized from './charts/Hospitalized.vue'
 import Deaths from './charts/Deaths.vue'
@@ -39,6 +48,7 @@ export default {
   name: 'Charts',
   components: {
     Vaccines,
+    VaccinePie,
     Cases,
     Hospitalized,
     Deaths,
@@ -117,7 +127,7 @@ export default {
       this.vaccinesData = [
         {description: "Vaccines today", value: today, ave_value: today_ave},
         {description: "Vaccines yesterday", value: yesterday, ave_value: yesterday_ave},
-        {description: `Vaccines a week ago`, value: week_ago, ave_value: week_ago_ave},
+        {description: "Vaccines a week ago", value: week_ago, ave_value: week_ago_ave},
       ]
     }
   }

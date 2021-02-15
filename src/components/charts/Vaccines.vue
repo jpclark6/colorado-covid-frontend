@@ -6,13 +6,9 @@
 <script>
 var Highcharts = require('highcharts');  
 require('highcharts/modules/exporting')(Highcharts);
-const axios = require('axios');
 
 const lightColor = "#e6e6ff";
 const darkColor = "#0000cc";
-
-
-
 
 
 export default {
@@ -46,7 +42,7 @@ export default {
 
       Highcharts.chart('vaccinesContainer', {
         title: {
-          text: 'Vaccine Distribution'
+          text: 'Daily Vaccine Distribution'
         },
 
         chart: {
@@ -86,11 +82,11 @@ export default {
         },
 
         series: [{
-          name: 'Daily Vaccine Doses Given',
+          name: 'Daily',
           data: formattedVaccinesHistory,
           color: lightColor
         }, {
-            name: 'Ave Daily Vaccine Doses Given',
+            name: '7 Day Rolling Average',
             data: formattedVaccinesAverage,
             color: darkColor
         }],
