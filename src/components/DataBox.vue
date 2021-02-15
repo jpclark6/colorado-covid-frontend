@@ -5,22 +5,17 @@
           <tr>
             <th >
             </th>
-            <th >
-              Actual
-            </th>
-            <th >
-              7-day Average
+            <th v-for="header in items.headers" :key="header">
+              {{ header }}
             </th>
           </tr>
         </thead>
         <tbody>
           <tr
-            v-for="item in items"
-            :key="item.description"
+            v-for="item in items.rows"
+            :key="item[0]"
           >
-            <td>{{ item.description }}</td>
-            <td>{{ item.value }}</td>
-            <td>{{ item.ave_value }}</td>
+            <td v-for="val in item" :key="val">{{ val }}</td>
           </tr>
         </tbody>
     </v-simple-table>

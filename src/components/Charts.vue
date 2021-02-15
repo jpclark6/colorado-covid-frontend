@@ -44,6 +44,10 @@ import Hospitalized from './charts/Hospitalized.vue'
 import Deaths from './charts/Deaths.vue'
 import DataBox from './DataBox.vue'
 
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 export default {
   name: 'Charts',
   components: {
@@ -101,34 +105,40 @@ export default {
       const yesterday_date = this.covidData.casesHistory[this.covidData.casesHistory.length - 2].reporting_date
       const week_ago_date = this.covidData.casesHistory[this.covidData.casesHistory.length - 7].reporting_date
 
-      const today = this.covidData.casesHistory[this.covidData.casesHistory.length - 1].positive_increase
-      const yesterday = this.covidData.casesHistory[this.covidData.casesHistory.length - 2].positive_increase
-      const week_ago = this.covidData.casesHistory[this.covidData.casesHistory.length - 7].positive_increase
+      const today = numberWithCommas(this.covidData.casesHistory[this.covidData.casesHistory.length - 1].positive_increase)
+      const yesterday = numberWithCommas(this.covidData.casesHistory[this.covidData.casesHistory.length - 2].positive_increase)
+      const week_ago = numberWithCommas(this.covidData.casesHistory[this.covidData.casesHistory.length - 7].positive_increase)
 
-      const today_ave = this.covidData.casesAverage[this.covidData.casesAverage.length - 1].positive_increase
-      const yesterday_ave = this.covidData.casesAverage[this.covidData.casesAverage.length - 2].positive_increase
-      const week_ago_ave = this.covidData.casesAverage[this.covidData.casesAverage.length - 7].positive_increase
+      const today_ave = numberWithCommas(this.covidData.casesAverage[this.covidData.casesAverage.length - 1].positive_increase)
+      const yesterday_ave = numberWithCommas(this.covidData.casesAverage[this.covidData.casesAverage.length - 2].positive_increase)
+      const week_ago_ave = numberWithCommas(this.covidData.casesAverage[this.covidData.casesAverage.length - 7].positive_increase)
 
-      this.casesData = [
-        {description: "Cases today", value: today, ave_value: today_ave},
-        {description: "Cases yesterday", value: yesterday, ave_value: yesterday_ave},
-        {description: "Cases a week ago", value: week_ago, ave_value: week_ago_ave},
-      ]
+      this.casesData = {
+        "headers": ["Actual", "7-day Average"],
+        "rows": [
+          ["New Cases today", today, today_ave],
+          ["Cases yesterday", yesterday, yesterday_ave],
+          ["Cases a week ago", week_ago, week_ago_ave],
+        ]
+      }
     },
     calculateVaccinesData() {
-      const today = this.covidData.vaccinesHistory[this.covidData.vaccinesHistory.length - 1].daily_qty
-      const yesterday = this.covidData.vaccinesHistory[this.covidData.vaccinesHistory.length - 2].daily_qty
-      const week_ago = this.covidData.vaccinesHistory[this.covidData.vaccinesHistory.length - 7].daily_qty
+      const today = numberWithCommas(this.covidData.vaccinesHistory[this.covidData.vaccinesHistory.length - 1].daily_qty)
+      const yesterday = numberWithCommas(this.covidData.vaccinesHistory[this.covidData.vaccinesHistory.length - 2].daily_qty)
+      const week_ago = numberWithCommas(this.covidData.vaccinesHistory[this.covidData.vaccinesHistory.length - 7].daily_qty)
 
-      const today_ave = this.covidData.vaccinesAverage[this.covidData.vaccinesAverage.length - 1].daily_qty
-      const yesterday_ave = this.covidData.vaccinesAverage[this.covidData.vaccinesAverage.length - 2].daily_qty
-      const week_ago_ave = this.covidData.vaccinesAverage[this.covidData.vaccinesAverage.length - 7].daily_qty
+      const today_ave = numberWithCommas(this.covidData.vaccinesAverage[this.covidData.vaccinesAverage.length - 1].daily_qty)
+      const yesterday_ave = numberWithCommas(this.covidData.vaccinesAverage[this.covidData.vaccinesAverage.length - 2].daily_qty)
+      const week_ago_ave = numberWithCommas(this.covidData.vaccinesAverage[this.covidData.vaccinesAverage.length - 7].daily_qty)
 
-      this.vaccinesData = [
-        {description: "Vaccines today", value: today, ave_value: today_ave},
-        {description: "Vaccines yesterday", value: yesterday, ave_value: yesterday_ave},
-        {description: "Vaccines a week ago", value: week_ago, ave_value: week_ago_ave},
-      ]
+      this.vaccinesData = {
+        "headers": ["Actual", "7-day Average"],
+        "rows": [
+          ["Vaccinated today", today, today_ave],
+          ["Vaccinated yesterday", yesterday, yesterday_ave],
+          ["Vaccinated a week ago", week_ago, week_ago_ave],
+        ]
+      }
     }
   }
 }

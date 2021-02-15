@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex justify-center d-md-flex flex-wrap">
+  <div class="d-lg-flex justify-center d-md-flex flex-wrap">
     <div>
       <div id="vaccinePieContainer"></div>
     </div>
@@ -25,15 +25,13 @@ function numberWithCommas(x) {
 }
 
 
-
-
 export default {
   name: 'VaccinePie',
   components: {DataBox},
   methods: {
     drawHighCharts() {
-      const {vaccinesHistory} = this.covidData
-      this.getVaccineStats(vaccinesHistory)
+      const {vaccinesHistory, casesHistory} = this.covidData
+      this.getVaccineStats(vaccinesHistory, casesHistory)
       this.drawVaccines(vaccinesHistory)
     },
     drawVaccines(vaccinesHistory) {
@@ -81,7 +79,8 @@ export default {
                 colors: [unvaccinatedColor, oneDoseColor, twoDosesColor],
                 dataLabels: {
                     enabled: true,
-                    format: '<b>{point.name}</b>: {point.percentage:.1f}%  ({point.people} people)'
+                    format: '<b>{point.name}</b>: {point.percentage:.1f}%  ({point.people} people)',
+                    padding: 10
                 }
             }
         },
@@ -105,10 +104,23 @@ export default {
         }]
       })
     },
-    getVaccineStats(vaccinesHistory) {
+    getVaccineStats(vaccinesHistory, casesHistory) {
       const daily_cumulative = vaccinesHistory[vaccinesHistory.length - 1].daily_cumulative
-      this.vaccineStats = [{description: "Cases today", value: daily_cumulative, ave_value: 42},
-        {description: "Cases yesterday", value: 24, ave_value: 42}]
+      const total_deaths = casesHistory[casesHistory.length - 1].death_confirmed
+      const total_positive = casesHistory[casesHistory.length - 1].positive
+      const total_tested = casesHistory[casesHistory.length - 1].tested
+
+      this.vaccineStats = {
+        "headers": ["Stats"],
+        "rows": [
+          ["Total population", numberWithCommas(5763976)],
+          ["Total population 18+", numberWithCommas(Math.round(5763976 * (1 - .219)))],
+          ["Total vaccines given", numberWithCommas(daily_cumulative)],
+          ["Total deaths", numberWithCommas(total_deaths)],
+          ["Total positive cases", numberWithCommas(total_positive)],
+          ["Total tests given", numberWithCommas(total_tested)]
+        ]
+      }
     }
   },
   props: ['covidData', 'readyToChart'],
@@ -126,5 +138,42 @@ export default {
 </script>
 
 <style>
+.highcharts-figure, .highcharts-data-table table {
+    min-width: 320px; 
+    max-width: 800px;
+    margin: 1em auto;
+}
 
+.highcharts-data-table table {
+	font-family: Verdana, sans-serif;
+	border-collapse: collapse;
+	border: 1px solid #EBEBEB;
+	margin: 10px auto;
+	text-align: center;
+	width: 100%;
+	max-width: 500px;
+}
+.highcharts-data-table caption {
+    padding: 1em 0;
+    font-size: 1.2em;
+    color: #555;
+}
+.highcharts-data-table th {
+	font-weight: 600;
+    padding: 0.5em;
+}
+.highcharts-data-table td, .highcharts-data-table th, .highcharts-data-table caption {
+    padding: 0.5em;
+}
+.highcharts-data-table thead tr, .highcharts-data-table tr:nth-child(even) {
+    background: #f8f8f8;
+}
+.highcharts-data-table tr:hover {
+    background: #f1f7ff;
+}
+
+
+input[type="number"] {
+	min-width: 50px;
+}
 </style>

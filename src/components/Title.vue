@@ -1,5 +1,5 @@
 <template>
-  <h1>Colorado COVID Data</h1>
+  <h1 class="mt-2">Colorado COVID Data</h1>
 </template>
 
 <script>
