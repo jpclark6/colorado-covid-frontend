@@ -1,5 +1,12 @@
 # colorado-covid-dashboard
 
+# Todo
+
+1. Update site icon
+1. Load test
+1. Basic tests?
+
+
 ## Project setup
 ```
 npm install

@@ -31,8 +31,8 @@ export default {
       this.drawVaccines(vaccinesHistory)
     },
     drawVaccines(vaccinesHistory) {
-      const one_dose = vaccinesHistory[vaccinesHistory.length - 1].one_dose_total
       const two_doses = vaccinesHistory[vaccinesHistory.length - 1].two_doses_total
+      const one_dose = vaccinesHistory[vaccinesHistory.length - 1].one_dose_total - two_doses
       const population = Math.round(5763976 * (1 - .219)) // 21.9% of population is under 18 https://www.census.gov/quickfacts/CO
       const one_dose_percentage = one_dose / population
       const two_doses_percentage = two_doses / population
@@ -52,7 +52,7 @@ export default {
             type: 'pie'
         },
         title: {
-            text: 'Colorado Population COVID Vaccine Rate'
+            text: 'Colorado 18+ Population COVID Vaccine Rate'
         },
         tooltip: {
             pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -78,7 +78,7 @@ export default {
           name: 'Vaccination Rate',
           colorByPoint: true,
           data: [{
-            name: 'Unvaccinated Adults (18+)',
+            name: 'Unvaccinated Adults',
             y: unvaccinated * 100,
             people: numberWithCommas(population - one_dose - two_doses)
           }, {
@@ -99,15 +99,17 @@ export default {
       const total_deaths = casesHistory[casesHistory.length - 1].death_confirmed
       const total_positive = casesHistory[casesHistory.length - 1].positive
       const total_tested = casesHistory[casesHistory.length - 1].tested
+      const at_least_one_dose = vaccinesHistory[vaccinesHistory.length - 1].one_dose_total
 
       this.vaccineStats = {
-        "headers": ["Stats"],
+        "headers": ["CO Stats"],
         "rows": [
           ["Total population", numberWithCommas(5763976)],
           ["Total population 18+", numberWithCommas(Math.round(5763976 * (1 - .219)))],
-          ["Total vaccines given", numberWithCommas(daily_cumulative)],
-          ["Total deaths", numberWithCommas(total_deaths)],
           ["Total positive cases", numberWithCommas(total_positive)],
+          ["Total vaccines given", numberWithCommas(daily_cumulative)],
+          ["People with at least one dose", numberWithCommas(at_least_one_dose)],
+          ["Total deaths", numberWithCommas(total_deaths)],
           ["Total tests given", numberWithCommas(total_tested)]
         ]
       }
