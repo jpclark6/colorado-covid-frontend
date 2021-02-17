@@ -25,13 +25,14 @@
       <Deaths class="mb-8" :readyToChart="trigger" :covidData="covidData"/>
       <Hospitalized class="mb-8" :readyToChart="trigger" :covidData="covidData"/>
     </div>
-    <p class="mx-6">*Vaccine data is typically released at 4pm for the previous day. So at 2pm on a Wednesday "Today" will
-      be for Monday's vaccine data, while at 7pm will be for Tuesday's data. Cases are released on the day of, 
-      so before 6pm "Today" is equal to yesterday's data, after 6pm it is equal to today's data.
+    <p class="mx-6">*Data is pulled automatically at 6pm MST. Vaccine data is typically released around 4pm for the previous day, so in the column above, "today's" vaccine data refers to when the data was released.
+      Case data is typically released around 4pm and is for the same day. Data on this site is not guaranteed to be accurate. See the sources directly for the official numbers.
     </p>
-    <p>Sources:</p>
-    <p>Cases - <a href="https://covid19.colorado.gov/data">https://covid19.colorado.gov/data</a></p>
-    <p>Vaccines - <a href="https://covid19.colorado.gov/vaccine-data-dashboard">https://covid19.colorado.gov/vaccine-data-dashboard</a></p>
+    <p class="mb-1">Sources:</p>
+    <p class="my-1">Cases - <a href="https://covid19.colorado.gov/data">https://covid19.colorado.gov/data</a></p>
+    <p class="mt-1">Vaccines - <a href="https://covid19.colorado.gov/vaccine-data-dashboard">https://covid19.colorado.gov/vaccine-data-dashboard</a></p>
+    <p class="mt-1">Privacy - This website uses Google Analytics for general site info, such as tracking how many people visit this site.
+      For the full policy visit <a href="https://www.privacypolicies.com/live/d93a5cf7-74a9-44d7-8af4-deec95d51130">this link</a>.</p>
   </div>
 </template>
 
