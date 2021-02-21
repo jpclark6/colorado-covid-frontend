@@ -100,15 +100,18 @@ export default {
       const total_positive = casesHistory[casesHistory.length - 1].positive
       const total_tested = casesHistory[casesHistory.length - 1].tested
       const at_least_one_dose = vaccinesHistory[vaccinesHistory.length - 1].one_dose_total
+      const co_population = 5763976
+      const one_dose_percent = Math.round(vaccinesHistory[vaccinesHistory.length - 1].one_dose_total * 1000  / co_population) / 10
 
       this.vaccineStats = {
         "headers": ["CO Stats"],
         "rows": [
-          ["Total population", numberWithCommas(5763976)],
-          ["Total population 18+", numberWithCommas(Math.round(5763976 * (1 - .219)))],
-          ["Total positive cases", numberWithCommas(total_positive)],
+          ["Total population", numberWithCommas(co_population)],
+          ["Total population 18+", numberWithCommas(Math.round(co_population * (1 - .219)))],
           ["Total vaccines given", numberWithCommas(daily_cumulative)],
           ["People with at least one dose", numberWithCommas(at_least_one_dose)],
+          ["% of total pop. with at least one dose", one_dose_percent],
+          ["Total positive cases", numberWithCommas(total_positive)],
           ["Total deaths", numberWithCommas(total_deaths)],
           ["Total tests given", numberWithCommas(total_tested)]
         ]
