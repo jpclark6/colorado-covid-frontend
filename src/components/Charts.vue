@@ -110,6 +110,10 @@ export default {
       const yesterday = numberWithCommas(casesHistory[casesHistory.length - 2].positive_increase)
       const week_ago = numberWithCommas(casesHistory[casesHistory.length - 8].positive_increase)
 
+      const today_date = numberWithCommas(casesHistory[casesHistory.length - 1].reporting_date).slice(7)
+      const yesterday_date = numberWithCommas(casesHistory[casesHistory.length - 2].reporting_date).slice(7)
+      const week_ago_date = numberWithCommas(casesHistory[casesHistory.length - 8].reporting_date).slice(7)
+
       const today_ave = numberWithCommas(casesAverage[casesAverage.length - 1].positive_increase)
       const yesterday_ave = numberWithCommas(casesAverage[casesAverage.length - 2].positive_increase)
       const week_ago_ave = numberWithCommas(casesAverage[casesAverage.length - 8].positive_increase)
@@ -117,9 +121,9 @@ export default {
       this.casesData = {
         "headers": ["Actual", "7-day Average"],
         "rows": [
-          ["New Cases today", today, today_ave],
-          ["Cases yesterday", yesterday, yesterday_ave],
-          ["Cases a week ago", week_ago, week_ago_ave],
+          [`New Cases on ${today_date}`, today, today_ave],
+          [`Cases on ${yesterday_date}`, yesterday, yesterday_ave],
+          [`Cases on ${week_ago_date}`, week_ago, week_ago_ave],
         ]
       }
     },
@@ -132,6 +136,10 @@ export default {
       const yesterday = numberWithCommas(vaccinesHistory[vaccinesHistory.length - 2].daily_qty)
       const week_ago = numberWithCommas(vaccinesHistory[vaccinesHistory.length - 8].daily_qty)
 
+      const today_date = numberWithCommas(vaccinesHistory[vaccinesHistory.length - 1].reporting_date).slice(7)
+      const yesterday_date = numberWithCommas(vaccinesHistory[vaccinesHistory.length - 2].reporting_date).slice(7)
+      const week_ago_date = numberWithCommas(vaccinesHistory[vaccinesHistory.length - 8].reporting_date).slice(7)
+
       const today_ave = numberWithCommas(vaccinesAverage[vaccinesAverage.length - 1].daily_qty)
       const yesterday_ave = numberWithCommas(vaccinesAverage[vaccinesAverage.length - 2].daily_qty)
       const week_ago_ave = numberWithCommas(vaccinesAverage[vaccinesAverage.length - 8].daily_qty)
@@ -139,9 +147,9 @@ export default {
       this.vaccinesData = {
         "headers": ["Actual", "7-day Average"],
         "rows": [
-          ["Vaccinated today", today, today_ave],
-          ["Vaccinated yesterday", yesterday, yesterday_ave],
-          ["Vaccinated a week ago", week_ago, week_ago_ave],
+          [`Vaccinated on ${today_date}`, today, today_ave],
+          [`Vaccinated on ${yesterday_date}`, yesterday, yesterday_ave],
+          [`Vaccinated on ${week_ago_date}`, week_ago, week_ago_ave],
         ]
       }
     }
