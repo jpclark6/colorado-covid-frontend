@@ -25,8 +25,8 @@
       <Deaths class="mb-8" :readyToChart="trigger" :covidData="covidData"/>
       <Hospitalized class="mb-8" :readyToChart="trigger" :covidData="covidData"/>
     </div>
-    <p class="mx-6">*Data is pulled automatically at 6pm MST. Vaccine data is typically released around 4pm for the previous day, so in the column above, "today's" vaccine data refers to when the data was released.
-      Case data is typically released around 4pm and is for the same day. Data on this site is not guaranteed to be accurate. See the sources directly for the official numbers.
+    <p class="mx-6">*Data is pulled automatically at 6pm MST. Vaccine data is delayed a day for reporting. Cases data is typically for the same day but occationally cases data is posted after 6PM and will be delayed a day.
+       Data on this site is not guaranteed to be accurate. See the sources directly for the official numbers.
     </p>
     <p class="mb-1">Sources:</p>
     <p class="my-1">Cases - <a href="https://covid19.colorado.gov/data">https://covid19.colorado.gov/data</a></p>
