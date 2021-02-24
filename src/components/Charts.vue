@@ -29,7 +29,7 @@
        Data on this site is not guaranteed to be accurate. See the sources directly for the official numbers.
     </p>
     <p class="mb-1">Sources:</p>
-    <p class="my-1">Cases - <a href="https://covid19.colorado.gov/data">https://covid19.colorado.gov/data</a></p>
+    <p class="my-1">Cases - API from <a href="https://data-cdphe.opendata.arcgis.com/search?tags=covid19">CDPHE Open Data</a> from <a href="https://covid19.colorado.gov/data">https://covid19.colorado.gov/data</a></p>
     <p class="mt-1">Vaccines - <a href="https://covid19.colorado.gov/vaccine-data-dashboard">https://covid19.colorado.gov/vaccine-data-dashboard</a></p>
     <p class="mt-1">Privacy - This website uses Google Analytics for general site info, such as tracking how many people visit this site.
       For the full policy visit <a href="https://www.privacypolicies.com/live/d93a5cf7-74a9-44d7-8af4-deec95d51130">this link</a>.</p>
