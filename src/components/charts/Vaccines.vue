@@ -56,7 +56,8 @@ export default {
         yAxis: {
           title: {
             text: 'Vaccines Given Daily'
-          }
+          },
+          min: 0
         },
 
         xAxis: {
