@@ -10,13 +10,15 @@
       <div>Loading data</div>
     </div>
     <div v-show="trigger">
-      <p>Data updated daily at 6pm MST*</p>
+      <p>Data updated daily in the evening</p>
       <div class="d-flex justify-center d-md-flex flex-wrap">
         <div class="mx-5">
           <DataBox :items="casesData" />
+          <p class="text-caption text-left px-8">*Last updated {{ lastCasesUpdate }}</p>
         </div>
         <div class="mx-5">
           <DataBox :items="vaccinesData" />
+          <p class="text-caption text-left px-8">*Last updated {{ lastVaccinesUpdate }}</p>
         </div>
       </div>
       <VaccinePie class="mb-8 mt-4" :readyToChart="trigger" :covidData="covidData"/>
@@ -25,12 +27,12 @@
       <Deaths class="mb-8" :readyToChart="trigger" :covidData="covidData"/>
       <Hospitalized class="mb-8" :readyToChart="trigger" :covidData="covidData"/>
     </div>
-    <p class="mx-6">*Data is pulled automatically at 6pm MST. Vaccine data is delayed a day for reporting. Cases data is typically for the same day but occationally cases data is posted after 6PM and will be delayed a day.
+    <p class="mx-6">*Data is updated daily in the evening as soon as it's available from the government APIs, usually around 6PM MST.
        Data on this site is not guaranteed to be accurate. See the sources directly for the official numbers.
     </p>
     <p class="mb-1">Sources:</p>
-    <p class="my-1">Cases - API from <a href="https://data-cdphe.opendata.arcgis.com/search?tags=covid19">CDPHE Open Data</a> from <a href="https://covid19.colorado.gov/data">https://covid19.colorado.gov/data</a></p>
-    <p class="mt-1">Vaccines - <a href="https://covid19.colorado.gov/vaccine-data-dashboard">https://covid19.colorado.gov/vaccine-data-dashboard</a></p>
+    <p class="my-1">Cases - <a href="https://opendata.arcgis.com/datasets/566216cf203e400f8cbf2e6b4354bc57_0.geojson">API</a> from <a href="https://data-cdphe.opendata.arcgis.com/search?tags=covid19">CDPHE Open Data</a> from <a href="https://covid19.colorado.gov/data">https://covid19.colorado.gov/data</a></p>
+    <p class="my-1">Vaccines - <a href="https://opendata.arcgis.com/datasets/a681d9e9f61144b2977badb89149198c_0.geojson">API</a> from <a href="https://data-cdphe.opendata.arcgis.com/search?tags=covid19">CDPHE Open Data</a> from <a href="https://covid19.colorado.gov/vaccine-data-dashboard">https://covid19.colorado.gov/vaccine-data-dashboard</a></p>
     <p class="mt-1">Privacy - This website uses Google Analytics for general site info, such as tracking how many people visit this site.
       For the full policy visit <a href="https://www.privacypolicies.com/live/d93a5cf7-74a9-44d7-8af4-deec95d51130">this link</a>.</p>
   </div>
@@ -65,7 +67,9 @@ export default {
       hospitalData: [],
       deathData: [],
       trigger: false,
-      covidData: {}
+      covidData: {},
+      lastCasesUpdate: "",
+      lastVaccinesUpdate: ""
     }
   },
 
@@ -77,8 +81,9 @@ export default {
     getData() {
       (async () => {
         try {
+          const api_url = process.env.VUE_APP_API_URL
           const [allData] = await axios.all([
-            axios.get('https://okvn4rtq0k.execute-api.us-east-1.amazonaws.com/Prod/data/')
+            axios.get(api_url + '/data/')
           ]);
 
           const vaccinesAverage = allData.data.data.ave_vaccines
@@ -95,6 +100,8 @@ export default {
 
           this.calculateCasesData()
           this.calculateVaccinesData()
+          this.updateLastUpdatedCasesTime(casesHistory)
+          this.updateLastUpdatedVaccinesTime(vaccinesHistory)
           this.trigger = true
         } catch (error) {
           console.log(error);
@@ -152,6 +159,14 @@ export default {
           [`Vaccinated on ${week_ago_date}`, week_ago, week_ago_ave],
         ]
       }
+    },
+    updateLastUpdatedCasesTime(casesHistory) {
+      const time = new Date(casesHistory[casesHistory.length - 1].created_at)
+      this.lastCasesUpdate = time.toLocaleString()
+    },
+    updateLastUpdatedVaccinesTime(vaccinesHistory) {
+      const time = new Date(vaccinesHistory[vaccinesHistory.length - 1].created_at)
+      this.lastVaccinesUpdate = time.toLocaleString()
     }
   }
 }
