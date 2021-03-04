@@ -1,7 +1,9 @@
 <template>
   <v-app>
     <Title />
-    <Charts />
+    <v-main>
+      <Charts class="mt-5" />
+    </v-main>
   </v-app>
 </template>
 
