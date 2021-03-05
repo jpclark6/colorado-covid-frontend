@@ -1,33 +1,22 @@
 <template>
-  <div class="d-lg-flex justify-center d-md-flex flex-wrap">
-    <div>
-      <div id="vaccinePieContainer"></div>
-    </div>
-    <div class="databox d-flex align-center" v-if="true">
-      <DataBox :items="vaccineStats" />
-    </div>
-  </div>
+    <div id="vaccinePieContainer"></div>
 </template>
 
 <script>
 var Highcharts = require('highcharts');
-require('highcharts/modules/exporting')(Highcharts);
-import DataBox from '../DataBox.vue'
 import { numberWithCommas } from '../../utils/formatting.js'
+require('highcharts/modules/exporting')(Highcharts);
 
-const unvaccinatedColor = "#e6e6ff";
-const oneDoseColor = "#a199ff";
-const twoDosesColor = "#00ff15";
+const unvaccinatedColor = "#CE4205";
+const oneDoseColor = "#F2E63F";
+const twoDosesColor = "#84C132";
 
 export default {
   name: 'VaccinePie',
 
-  components: {DataBox},
-
   methods: {
     drawHighCharts() {
-      const {vaccinesHistory, casesHistory} = this.covidData
-      this.getVaccineStats(vaccinesHistory, casesHistory)
+      const { vaccinesHistory } = this.covidData
       this.drawVaccines(vaccinesHistory)
     },
     drawVaccines(vaccinesHistory) {
@@ -41,7 +30,21 @@ export default {
       Highcharts.setOptions({
         lang: {
           thousandsSep: ','
-        }
+        },
+        colors: Highcharts.map([unvaccinatedColor, oneDoseColor, twoDosesColor], function (color) {
+          console.log({ color })
+          return {
+            radialGradient: {
+                cx: .5,
+                cy: .5,
+                r: 1
+            },
+            stops: [
+                [0, color],
+                [.5, Highcharts.color(color).brighten(0.2).get('rgb')],
+            ]
+          };
+        })
       });
 
       Highcharts.chart('vaccinePieContainer', {
@@ -52,7 +55,7 @@ export default {
             type: 'pie'
         },
         title: {
-            text: 'Colorado 18+ Population COVID Vaccine Rate'
+            text: 'Colorado Adult COVID Vaccine Rate'
         },
         tooltip: {
             pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -66,7 +69,6 @@ export default {
             pie: {
                 allowPointSelect: true,
                 cursor: 'pointer',
-                colors: [unvaccinatedColor, oneDoseColor, twoDosesColor],
                 dataLabels: {
                     enabled: true,
                     format: '<b>{point.name}</b>: {point.percentage:.1f}%  ({point.people} people)',
@@ -93,29 +95,6 @@ export default {
           ]
         }]
       })
-    },
-    getVaccineStats(vaccinesHistory, casesHistory) {
-      const daily_cumulative = vaccinesHistory[vaccinesHistory.length - 1].daily_cumulative
-      const total_deaths = casesHistory[casesHistory.length - 1].death_confirmed
-      const total_positive = casesHistory[casesHistory.length - 1].positive
-      const total_tested = casesHistory[casesHistory.length - 1].tested
-      const at_least_one_dose = vaccinesHistory[vaccinesHistory.length - 1].one_dose_total
-      const co_population = 5763976
-      const one_dose_percent = Math.round(vaccinesHistory[vaccinesHistory.length - 1].one_dose_total * 1000  / co_population) / 10
-
-      this.vaccineStats = {
-        "headers": ["CO Stats"],
-        "rows": [
-          ["Total population", numberWithCommas(co_population)],
-          ["Total population 18+", numberWithCommas(Math.round(co_population * (1 - .219)))],
-          ["Total vaccines given", numberWithCommas(daily_cumulative)],
-          ["People with at least one dose", numberWithCommas(at_least_one_dose)],
-          ["% of total pop. with at least one dose", one_dose_percent],
-          ["Total positive cases", numberWithCommas(total_positive)],
-          ["Total deaths", numberWithCommas(total_deaths)],
-          ["Total tests given", numberWithCommas(total_tested)]
-        ]
-      }
     }
   },
 
@@ -127,12 +106,6 @@ export default {
   watch: {
     readyToChart: function(newVar, oldVar) {
       this.drawHighCharts()
-    }
-  },
-
-  data() {
-    return {
-      vaccineStats: []
     }
   }
 }

@@ -18,12 +18,12 @@
     <v-spacer></v-spacer>
    
     <template v-slot:extension>
-      <v-tabs align-with-title >
-        <v-tab>Overview</v-tab>
-        <v-tab>Vaccines</v-tab>
-        <v-tab>Cases</v-tab>
-        <v-tab>Hospitalizations</v-tab>
-        <v-tab>Deaths</v-tab>
+      <v-tabs  center-active centered >
+        <v-tab v-on:click="$emit('change-charts', 'overview')">Overview</v-tab>
+        <v-tab v-on:click="$emit('change-charts', 'vaccines')">Vaccines</v-tab>
+        <v-tab v-on:click="$emit('change-charts', 'cases')">Cases</v-tab>
+        <v-tab v-on:click="$emit('change-charts', 'hospitalizations')">Hospitalizations</v-tab>
+        <v-tab v-on:click="$emit('change-charts', 'deaths')">Deaths</v-tab>
       </v-tabs>
     </template>
   </v-app-bar>

@@ -1,32 +1,34 @@
 <template>
   <div class="text-center">
-    <div v-show="!trigger">
-      <v-progress-circular
-        indeterminate
-        color="primary"
-        :size="70"
-        :width="7"
-      ></v-progress-circular>
-      <div>Loading data</div>
-    </div>
-    <div v-show="trigger">
-      <p>Data updated daily in the evening</p>
-      <div class="d-flex justify-center d-md-flex flex-wrap">
-        <div class="mx-5">
-          <DataBox :items="casesData" />
-          <p class="text-caption text-left px-8">*Last updated {{ lastCasesUpdate }}</p>
-        </div>
-        <div class="mx-5">
-          <DataBox :items="vaccinesData" />
-          <p class="text-caption text-left px-8">*Last updated {{ lastVaccinesUpdate }}</p>
-        </div>
+    <Spinner v-show="!trigger" />
+
+    <p class="m-3"> Data updated daily in the evening</p>
+
+    <div class="d-flex justify-center d-md-flex flex-wrap align-center" v-show="trigger" style="max-width: 1200px; margin: auto;">
+      <div class="mx-5" v-show="trigger && showChart(shownCharts, 'caseStats')">
+        <DataBox :items="casesData" />
+        <p class="text-caption text-left px-8">*Last updated {{ lastCasesUpdate }}</p>
       </div>
-      <VaccinePie class="mb-8 mt-4" :readyToChart="trigger" :covidData="covidData"/>
-      <Vaccines class="mb-8" :readyToChart="trigger" :covidData="covidData"/>
-      <Cases class="mb-8" :readyToChart="trigger" :covidData="covidData"/>
-      <Deaths class="mb-8" :readyToChart="trigger" :covidData="covidData"/>
-      <Hospitalized class="mb-8" :readyToChart="trigger" :covidData="covidData"/>
+
+      <div class="mx-5" v-show="trigger && showChart(shownCharts, 'vaccineStats')">
+        <DataBox :items="vaccinesData" />
+        <p class="text-caption text-left px-8">*Last updated {{ lastVaccinesUpdate }}</p>
+      </div>
+
+      <div v-show="trigger && showChart(shownCharts, 'vaccinePie')">
+        <VaccinePie class="mb-8 mt-4" :readyToChart="trigger" :covidData="covidData"/>
+      </div>
+
+      <div v-show="trigger && showChart(shownCharts, 'generalStats')">
+        <GeneralStats class="mb-8 mt-4" :readyToChart="trigger" :covidData="covidData"/>
+      </div>
     </div>
+
+    <Vaccines v-show="trigger && showChart(shownCharts, 'vaccinesChart')" class="mb-8" :readyToChart="trigger" :covidData="covidData"/>
+    <Cases v-show="trigger && showChart(shownCharts, 'casesChart')" class="mb-8" :readyToChart="trigger" :covidData="covidData"/>
+    <Deaths v-show="trigger && showChart(shownCharts, 'deathsChart')" class="mb-8" :readyToChart="trigger" :covidData="covidData"/>
+    <Hospitalized v-show="trigger && showChart(shownCharts, 'hospitalizedChart')" class="mb-8" :readyToChart="trigger" :covidData="covidData"/>
+
     <p class="mx-6">*Data is updated daily in the evening as soon as it's available from the government APIs, usually around 6PM MST.
        Data on this site is not guaranteed to be accurate. See the sources directly for the official numbers.
     </p>
@@ -46,10 +48,14 @@ import Cases from './charts/Cases.vue'
 import Hospitalized from './charts/Hospitalized.vue'
 import Deaths from './charts/Deaths.vue'
 import DataBox from './DataBox.vue'
+import GeneralStats from './charts/GeneralStats.vue'
+import Spinner from './Spinner.vue'
 import { numberWithCommas } from '../utils/formatting.js'
 
 export default {
   name: 'Charts',
+
+  props: ['shownCharts'],
 
   components: {
     Vaccines,
@@ -57,7 +63,9 @@ export default {
     Cases,
     Hospitalized,
     Deaths,
-    DataBox
+    DataBox,
+    GeneralStats,
+    Spinner,
   },
 
   data() {
@@ -78,6 +86,27 @@ export default {
   },
 
   methods: {
+    showChart(selection, chart) {
+      // caseStats, vaccineStats, vaccinePie, generalStats, vaccinesChart, casesChart, deathsChart, hospitalizedChart
+      const key = {
+        overview: [
+          'caseStats', 'vaccineStats', 'vaccinePie', 'generalStats', 'vaccinesChart', 'casesChart'
+        ],
+        cases: [
+          'caseStats', 'casesChart'
+        ],
+        vaccines: [
+          'vaccineStats', 'vaccinePie', 'vaccinesChart'
+        ], 
+        hospitalizations: [
+          'hospitalizedChart'
+        ],
+        deaths: [
+          'deathsChart'
+        ]
+      }
+      return key[selection].includes(chart)
+    },
     getData() {
       (async () => {
         try {

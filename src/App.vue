@@ -1,8 +1,8 @@
 <template>
   <v-app>
-    <Title />
-    <v-main>
-      <Charts class="mt-5" />
+    <Title v-on:change-charts="changeCharts" />
+    <v-main >
+      <Charts class="mt-5" :shownCharts="currentCharts" />
     </v-main>
   </v-app>
 </template>
@@ -19,8 +19,14 @@ export default {
     Charts
   },
 
+  methods: {
+    changeCharts(shownCharts) {
+      this.currentCharts = shownCharts
+    }
+  },
+
   data: () => ({
-    //
+    currentCharts: "overview"
   }),
 };
 </script>
