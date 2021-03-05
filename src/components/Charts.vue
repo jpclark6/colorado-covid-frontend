@@ -2,9 +2,9 @@
   <div class="text-center">
     <Spinner v-show="!trigger" />
 
-    <p class="m-3"> Data updated daily in the evening</p>
+    <p class="m-3"> Data updated daily in the evening. Additional charts coming March 8.</p>
 
-    <div class="d-flex justify-center d-md-flex flex-wrap align-center" v-show="trigger" style="max-width: 1200px; margin: auto;">
+    <div class="d-flex justify-center  flex-wrap align-center" v-show="trigger" style="max-width: 1200px; margin: auto;">
       <div class="mx-5" v-show="trigger && showChart(shownCharts, 'caseStats')">
         <DataBox :items="casesData" />
         <p class="text-caption text-left px-8">*Last updated {{ lastCasesUpdate }}</p>
@@ -15,7 +15,7 @@
         <p class="text-caption text-left px-8">*Last updated {{ lastVaccinesUpdate }}</p>
       </div>
 
-      <div v-show="trigger && showChart(shownCharts, 'vaccinePie')">
+      <div v-show="trigger && showChart(shownCharts, 'vaccinePie')" id="pieChart">
         <VaccinePie class="mb-8 mt-4" :readyToChart="trigger" :covidData="covidData"/>
       </div>
 
@@ -237,5 +237,8 @@ export default {
 .v-progress-circular {
   margin: 1rem;
   text-align: center;
+}
+.pieChart {
+  max-width: 400px;
 }
 </style>

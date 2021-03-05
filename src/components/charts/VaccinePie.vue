@@ -1,5 +1,7 @@
 <template>
+  <div class="pieBox">
     <div id="vaccinePieContainer"></div>
+  </div>
 </template>
 
 <script>
@@ -7,9 +9,12 @@ var Highcharts = require('highcharts');
 import { numberWithCommas } from '../../utils/formatting.js'
 require('highcharts/modules/exporting')(Highcharts);
 
-const unvaccinatedColor = "#CE4205";
-const oneDoseColor = "#F2E63F";
-const twoDosesColor = "#84C132";
+// const unvaccinatedColor = "#CE4205";
+// const oneDoseColor = "#F2E63F";
+// const twoDosesColor = "#84C132";
+const unvaccinatedColor = "#e6e6ff";
+const oneDoseColor = "#a199ff";
+const twoDosesColor = "#00ff15";
 
 export default {
   name: 'VaccinePie',
@@ -41,7 +46,7 @@ export default {
             },
             stops: [
                 [0, color],
-                [.5, Highcharts.color(color).brighten(0.2).get('rgb')],
+                [.5, Highcharts.color(color).brighten(-0.1).get('rgb')],
             ]
           };
         })
@@ -111,7 +116,11 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+#vaccinePieContainer {
+  display: block;
+  max-width: 599px;
+}
 .highcharts-figure, .highcharts-data-table table {
     min-width: 320px; 
     max-width: 800px;
