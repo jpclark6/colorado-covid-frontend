@@ -1,8 +1,8 @@
 <template>
   <v-app>
     <Title v-on:change-charts="changeCharts" />
-    <v-main >
-      <Charts class="mt-5" :shownCharts="currentCharts" />
+    <v-main>
+      <Charts class="mt-5" :shownCharts="currentCharts" id="all-charts"/>
     </v-main>
   </v-app>
 </template>
@@ -39,6 +39,12 @@ export default {
   /* text-align: center;
   margin-top: 60px; */
   color: #2c3e50;
+}
+@media (min-width: 800px) {
+  #all-charts {
+    max-width: 90%;
+    margin: auto;
+  }
 }
 
 </style>

@@ -2,9 +2,9 @@
   <div class="text-center">
     <Spinner v-show="!trigger" />
 
-    <p class="m-3"> Data updated daily in the evening. Additional charts coming March 8.</p>
+    <p class="m-3"> Data updated daily in the evening. Additional charts coming soon.</p>
 
-    <div class="d-flex justify-center  flex-wrap align-center" v-show="trigger" style="max-width: 1200px; margin: auto;">
+    <div class="d-flex justify-center  flex-wrap align-center" v-show="trigger" id="flex-wrapper">
       <div class="mx-5" v-show="trigger && showChart(shownCharts, 'caseStats')">
         <DataBox :items="casesData" />
         <p class="text-caption text-left px-8">*Last updated {{ lastCasesUpdate }}</p>
@@ -15,7 +15,7 @@
         <p class="text-caption text-left px-8">*Last updated {{ lastVaccinesUpdate }}</p>
       </div>
 
-      <div v-show="trigger && showChart(shownCharts, 'vaccinePie')" id="pieChart">
+      <div v-show="trigger && showChart(shownCharts, 'vaccinePie')" >
         <VaccinePie class="mb-8 mt-4" :readyToChart="trigger" :covidData="covidData"/>
       </div>
 
@@ -32,10 +32,10 @@
     <p class="mx-6">*Data is updated daily in the evening as soon as it's available from the government APIs, usually around 6PM MST.
        Data on this site is not guaranteed to be accurate. See the sources directly for the official numbers.
     </p>
-    <p class="mb-1">Sources:</p>
-    <p class="my-1">Cases - <a href="https://opendata.arcgis.com/datasets/566216cf203e400f8cbf2e6b4354bc57_0.geojson">API</a> from <a href="https://data-cdphe.opendata.arcgis.com/search?tags=covid19">CDPHE Open Data</a> from <a href="https://covid19.colorado.gov/data">https://covid19.colorado.gov/data</a></p>
-    <p class="my-1">Vaccines - <a href="https://opendata.arcgis.com/datasets/a681d9e9f61144b2977badb89149198c_0.geojson">API</a> from <a href="https://data-cdphe.opendata.arcgis.com/search?tags=covid19">CDPHE Open Data</a> from <a href="https://covid19.colorado.gov/vaccine-data-dashboard">https://covid19.colorado.gov/vaccine-data-dashboard</a></p>
-    <p class="mt-1">Privacy - This website uses Google Analytics for general site info, such as tracking how many people visit this site.
+    <p class="mb-1 mx-5 text-left">Sources:</p>
+    <p class="my-1 mx-2 text-left">Cases - <a href="https://opendata.arcgis.com/datasets/566216cf203e400f8cbf2e6b4354bc57_0.geojson">API</a> from <a href="https://data-cdphe.opendata.arcgis.com/search?tags=covid19">CDPHE Open Data</a> from <a href="https://covid19.colorado.gov/data">https://covid19.colorado.gov/data</a></p>
+    <p class="my-1 mx-2 text-left">Vaccines - <a href="https://opendata.arcgis.com/datasets/a681d9e9f61144b2977badb89149198c_0.geojson">API</a> from <a href="https://data-cdphe.opendata.arcgis.com/search?tags=covid19">CDPHE Open Data</a> from <a href="https://covid19.colorado.gov/vaccine-data-dashboard">https://covid19.colorado.gov/vaccine-data-dashboard</a></p>
+    <p class="mt-1 mx-2 text-left">Privacy - This website uses Google Analytics for general site info, such as tracking how many people visit this site.
       For the full policy visit <a href="https://www.privacypolicies.com/live/d93a5cf7-74a9-44d7-8af4-deec95d51130">this link</a>.</p>
   </div>
 </template>
@@ -238,7 +238,9 @@ export default {
   margin: 1rem;
   text-align: center;
 }
-.pieChart {
-  max-width: 400px;
+
+#flex-wrapper {
+  max-width: 1200px; 
+  margin: auto;
 }
 </style>

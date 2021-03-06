@@ -1,6 +1,6 @@
 <template>
-  <div class="pieBox">
-    <div id="vaccinePieContainer"></div>
+  <div class="pie-box">
+      <div id="vaccinePieContainer"></div>
   </div>
 </template>
 
@@ -52,7 +52,7 @@ export default {
         })
       });
 
-      Highcharts.chart('vaccinePieContainer', {
+      var chart = Highcharts.chart('vaccinePieContainer', {
         chart: {
             plotBackgroundColor: null,
             plotBorderWidth: null,
@@ -98,8 +98,10 @@ export default {
             people: numberWithCommas(two_doses)
           }
           ]
-        }]
+        }],
+        
       })
+      chart.reflow()
     }
   },
 
@@ -117,9 +119,10 @@ export default {
 </script>
 
 <style scoped>
-#vaccinePieContainer {
-  display: block;
-  max-width: 599px;
+@media (max-width: 600px) {
+  .pie-box {
+    max-width: 400px;
+  }
 }
 .highcharts-figure, .highcharts-data-table table {
     min-width: 320px; 
@@ -132,7 +135,6 @@ export default {
 	border: 1px solid #EBEBEB;
 	margin: 10px auto;
 	text-align: center;
-	width: 100%;
 	max-width: 500px;
 }
 .highcharts-data-table caption {
