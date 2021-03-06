@@ -93,7 +93,7 @@ export default {
             y: one_dose_percentage * 100,
             people: numberWithCommas(one_dose)
           }, {
-            name: 'Received Both Doses',
+            name: 'Fully Immunized',
             y: fully_immunized_percentage * 100,
             people: numberWithCommas(fully_immunized)
           }
