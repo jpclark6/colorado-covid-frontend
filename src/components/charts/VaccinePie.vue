@@ -11,10 +11,10 @@ require('highcharts/modules/exporting')(Highcharts);
 
 // const unvaccinatedColor = "#CE4205";
 // const oneDoseColor = "#F2E63F";
-// const twoDosesColor = "#84C132";
+// const fullyImmunizedColor = "#84C132";
 const unvaccinatedColor = "#e6e6ff";
 const oneDoseColor = "#a199ff";
-const twoDosesColor = "#00ff15";
+const fullyImmunizedColor = "#00ff15";
 
 export default {
   name: 'VaccinePie',
@@ -25,18 +25,18 @@ export default {
       this.drawVaccines(vaccinesHistory)
     },
     drawVaccines(vaccinesHistory) {
-      const two_doses = vaccinesHistory[vaccinesHistory.length - 1].two_doses_total
-      const one_dose = vaccinesHistory[vaccinesHistory.length - 1].one_dose_total - two_doses
+      const fully_immunized = vaccinesHistory[vaccinesHistory.length - 1].fully_immunized_total
+      const one_dose = vaccinesHistory[vaccinesHistory.length - 1].one_dose_total - fully_immunized
       const population = Math.round(5763976 * (1 - .219)) // 21.9% of population is under 18 https://www.census.gov/quickfacts/CO
       const one_dose_percentage = one_dose / population
-      const two_doses_percentage = two_doses / population
-      const unvaccinated = (population - one_dose - two_doses) / population
+      const fully_immunized_percentage = fully_immunized / population
+      const unvaccinated = (population - one_dose - fully_immunized) / population
 
       Highcharts.setOptions({
         lang: {
           thousandsSep: ','
         },
-        colors: Highcharts.map([unvaccinatedColor, oneDoseColor, twoDosesColor], function (color) {
+        colors: Highcharts.map([unvaccinatedColor, oneDoseColor, fullyImmunizedColor], function (color) {
           console.log({ color })
           return {
             radialGradient: {
@@ -87,15 +87,15 @@ export default {
           data: [{
             name: 'Unvaccinated Adults',
             y: unvaccinated * 100,
-            people: numberWithCommas(population - one_dose - two_doses)
+            people: numberWithCommas(population - one_dose - fully_immunized)
           }, {
             name: 'Received One Dose',
             y: one_dose_percentage * 100,
             people: numberWithCommas(one_dose)
           }, {
             name: 'Received Both Doses',
-            y: two_doses_percentage * 100,
-            people: numberWithCommas(two_doses)
+            y: fully_immunized_percentage * 100,
+            people: numberWithCommas(fully_immunized)
           }
           ]
         }],
