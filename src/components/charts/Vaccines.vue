@@ -42,7 +42,7 @@ export default {
 
       Highcharts.chart('vaccinesContainer', {
         title: {
-          text: 'Daily Vaccine Distribution'
+          text: 'Daily Vaccine Administration'
         },
 
         chart: {

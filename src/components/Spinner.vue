@@ -1,12 +1,12 @@
 <template>
-  <div v-show="!trigger">
+  <div>
       <v-progress-circular
         indeterminate
         color="primary"
         :size="70"
         :width="7"
       ></v-progress-circular>
-      <div>Loading data</div>
+      <div><b>Fetching the numbers</b></div>
     </div>
 </template>
 

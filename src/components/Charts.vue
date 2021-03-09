@@ -25,6 +25,7 @@
     </div>
 
     <Vaccines v-show="trigger && showChart(shownCharts, 'vaccinesChart')" class="mb-8" :readyToChart="trigger" :covidData="covidData"/>
+    <VaccineTypes v-show="trigger && showChart(shownCharts, 'vaccineTypesChart')" class="mb-8" :readyToChart="trigger" :covidData="covidData"/>
     <Cases v-show="trigger && showChart(shownCharts, 'casesChart')" class="mb-8" :readyToChart="trigger" :covidData="covidData"/>
     <Deaths v-show="trigger && showChart(shownCharts, 'deathsChart')" class="mb-8" :readyToChart="trigger" :covidData="covidData"/>
     <Hospitalized v-show="trigger && showChart(shownCharts, 'hospitalizedChart')" class="mb-8" :readyToChart="trigger" :covidData="covidData"/>
@@ -32,10 +33,10 @@
     <p class="mx-6">*Data is updated daily in the evening as soon as it's available from the government APIs, usually around 6PM MST.
        Data on this site is not guaranteed to be accurate. See the sources directly for the official numbers.
     </p>
-    <p class="mb-1 mx-5 text-left">Sources:</p>
-    <p class="my-1 mx-2 text-left">Cases - <a href="https://opendata.arcgis.com/datasets/566216cf203e400f8cbf2e6b4354bc57_0.geojson">API</a> from <a href="https://data-cdphe.opendata.arcgis.com/search?tags=covid19">CDPHE Open Data</a> from <a href="https://covid19.colorado.gov/data">https://covid19.colorado.gov/data</a></p>
-    <p class="my-1 mx-2 text-left">Vaccines - <a href="https://opendata.arcgis.com/datasets/a681d9e9f61144b2977badb89149198c_0.geojson">API</a> from <a href="https://data-cdphe.opendata.arcgis.com/search?tags=covid19">CDPHE Open Data</a> from <a href="https://covid19.colorado.gov/vaccine-data-dashboard">https://covid19.colorado.gov/vaccine-data-dashboard</a></p>
-    <p class="mt-1 mx-2 text-left">Privacy - This website uses Google Analytics for general site info, such as tracking how many people visit this site.
+    <p class="mb-1 mx-5">Sources:</p>
+    <p class="my-1 mx-2">Cases - <a href="https://opendata.arcgis.com/datasets/566216cf203e400f8cbf2e6b4354bc57_0.geojson">API</a> from <a href="https://data-cdphe.opendata.arcgis.com/search?tags=covid19">CDPHE Open Data</a> from <a href="https://covid19.colorado.gov/data">https://covid19.colorado.gov/data</a></p>
+    <p class="my-1 mx-2">Vaccines - <a href="https://opendata.arcgis.com/datasets/a681d9e9f61144b2977badb89149198c_0.geojson">API</a> from <a href="https://data-cdphe.opendata.arcgis.com/search?tags=covid19">CDPHE Open Data</a> from <a href="https://covid19.colorado.gov/vaccine-data-dashboard">https://covid19.colorado.gov/vaccine-data-dashboard</a></p>
+    <p class="mt-1 mx-2">Privacy - This website uses Google Analytics for general site info, such as tracking how many people visit this site.
       For the full policy visit <a href="https://www.privacypolicies.com/live/d93a5cf7-74a9-44d7-8af4-deec95d51130">this link</a>.</p>
   </div>
 </template>
@@ -43,6 +44,7 @@
 <script>
 const axios = require('axios');
 import Vaccines from './charts/Vaccines.vue'
+import VaccineTypes from './charts/VaccineTypes.vue'
 import VaccinePie from './charts/VaccinePie.vue'
 import Cases from './charts/Cases.vue'
 import Hospitalized from './charts/Hospitalized.vue'
@@ -59,6 +61,7 @@ export default {
 
   components: {
     Vaccines,
+    VaccineTypes,
     VaccinePie,
     Cases,
     Hospitalized,
@@ -96,7 +99,7 @@ export default {
           'caseStats', 'casesChart'
         ],
         vaccines: [
-          'vaccineStats', 'vaccinePie', 'vaccinesChart'
+          'vaccineStats', 'vaccinePie', 'vaccinesChart', 'vaccineTypesChart'
         ], 
         hospitalizations: [
           'hospitalizedChart'
@@ -155,7 +158,7 @@ export default {
       const week_ago_ave = numberWithCommas(casesAverage[casesAverage.length - 8].positive_increase)
 
       this.casesData = {
-        "headers": ["Actual", "7-day Average"],
+        "headers": ["", "7-day Average"],
         "rows": [
           [`New Cases on ${today_date}`, today, today_ave],
           [`Cases on ${yesterday_date}`, yesterday, yesterday_ave],
@@ -181,7 +184,7 @@ export default {
       const week_ago_ave = numberWithCommas(vaccinesAverage[vaccinesAverage.length - 8].daily_qty)
 
       this.vaccinesData = {
-        "headers": ["Actual", "7-day Average"],
+        "headers": ["", "7-day Average"],
         "rows": [
           [`Vaccinated on ${today_date}`, today, today_ave],
           [`Vaccinated on ${yesterday_date}`, yesterday, yesterday_ave],

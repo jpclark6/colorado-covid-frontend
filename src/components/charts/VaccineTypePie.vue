@@ -1,7 +1,6 @@
 <template>
   <div class="pie-box">
-      <div id="vaccinePieContainer"></div>
-      <p>*One dose is for Pfizer or Moderna. Fully immunized includes J&J</p>
+      <div id="vaccineTypePieContainer"></div>
   </div>
 </template>
 
@@ -10,34 +9,28 @@ var Highcharts = require('highcharts');
 import { numberWithCommas } from '../../utils/formatting.js'
 require('highcharts/modules/exporting')(Highcharts);
 
-// const unvaccinatedColor = "#CE4205";
-// const oneDoseColor = "#F2E63F";
-// const fullyImmunizedColor = "#84C132";
-const unvaccinatedColor = "#e6e6ff";
-const oneDoseColor = "#a199ff";
-const fullyImmunizedColor = "#00ff15";
+const pfizerColor = "#e6e6ff";
+const modernaColor = "#a199ff";
+const jandjColor = "#00ff15";
 
 export default {
-  name: 'VaccinePie',
+  name: 'VaccineTypePie',
 
   methods: {
     drawHighCharts() {
-      const { vaccinesHistory } = this.covidData
-      this.drawVaccines(vaccinesHistory)
+      const { vaccinesAverage } = this.covidData
+      this.drawVaccines(vaccinesAverage)
     },
-    drawVaccines(vaccinesHistory) {
-      const fully_immunized = vaccinesHistory[vaccinesHistory.length - 1].fully_immunized_total
-      const one_dose = vaccinesHistory[vaccinesHistory.length - 1].one_dose_total - fully_immunized
-      const population = Math.round(5763976 * (1 - .219)) // 21.9% of population is under 18 https://www.census.gov/quickfacts/CO
-      const one_dose_percentage = one_dose / population
-      const fully_immunized_percentage = fully_immunized / population
-      const unvaccinated = (population - one_dose - fully_immunized) / population
+    drawVaccines(vaccinesAverage) {
+      const moderna = vaccinesAverage[vaccinesAverage.length - 1].daily_moderna
+      const pfizer = vaccinesAverage[vaccinesAverage.length - 1].daily_pfizer
+      const jandj = vaccinesAverage[vaccinesAverage.length - 1].daily_jandj
 
       Highcharts.setOptions({
         lang: {
           thousandsSep: ','
         },
-        colors: Highcharts.map([unvaccinatedColor, oneDoseColor, fullyImmunizedColor], function (color) {
+        colors: Highcharts.map([pfizerColor, modernaColor, jandjColor], function (color) {
           return {
             radialGradient: {
                 cx: .5,
