@@ -28,6 +28,7 @@
     <VaccineTypes v-show="trigger && showChart(shownCharts, 'vaccineTypesChart')" class="mb-8" :readyToChart="trigger" :covidData="covidData"/>
     <Cases v-show="trigger && showChart(shownCharts, 'casesChart')" class="mb-8" :readyToChart="trigger" :covidData="covidData"/>
     <Deaths v-show="trigger && showChart(shownCharts, 'deathsChart')" class="mb-8" :readyToChart="trigger" :covidData="covidData"/>
+    <HospitalizedCurrently v-show="trigger && showChart(shownCharts, 'hospitalizedCurrentlyChart')" class="mb-8" :readyToChart="trigger" :covidData="covidData"/>
     <Hospitalized v-show="trigger && showChart(shownCharts, 'hospitalizedChart')" class="mb-8" :readyToChart="trigger" :covidData="covidData"/>
 
     <p class="mx-6">*Data is updated daily in the evening as soon as it's available from the government APIs, usually around 6PM MST.
@@ -48,6 +49,7 @@ import VaccineTypes from './charts/VaccineTypes.vue'
 import VaccinePie from './charts/VaccinePie.vue'
 import Cases from './charts/Cases.vue'
 import Hospitalized from './charts/Hospitalized.vue'
+import HospitalizedCurrently from './charts/HospitalizedCurrently.vue'
 import Deaths from './charts/Deaths.vue'
 import DataBox from './DataBox.vue'
 import GeneralStats from './charts/GeneralStats.vue'
@@ -65,6 +67,7 @@ export default {
     VaccinePie,
     Cases,
     Hospitalized,
+    HospitalizedCurrently,
     Deaths,
     DataBox,
     GeneralStats,
@@ -102,7 +105,7 @@ export default {
           'vaccineStats', 'vaccinePie', 'vaccinesChart', 'vaccineTypesChart'
         ], 
         hospitalizations: [
-          'hospitalizedChart'
+          'hospitalizedChart', 'hospitalizedCurrentlyChart'
         ],
         deaths: [
           'deathsChart'
