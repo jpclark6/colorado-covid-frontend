@@ -24,6 +24,7 @@
         <v-tab v-on:click="$emit('change-charts', 'cases')">Cases</v-tab>
         <v-tab v-on:click="$emit('change-charts', 'hospitalizations')">Hospitalizations</v-tab>
         <v-tab v-on:click="$emit('change-charts', 'deaths')">Deaths</v-tab>
+        <v-tab v-on:click="$emit('change-charts', 'all')">All Charts</v-tab>
       </v-tabs>
     </template>
   </v-app-bar>

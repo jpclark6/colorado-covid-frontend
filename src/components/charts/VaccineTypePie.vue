@@ -18,13 +18,21 @@ export default {
 
   methods: {
     drawHighCharts() {
-      const { vaccinesAverage } = this.covidData
-      this.drawVaccines(vaccinesAverage)
+      const { vaccinesHistory } = this.covidData
+      this.drawVaccines(vaccinesHistory)
     },
-    drawVaccines(vaccinesAverage) {
-      const moderna = vaccinesAverage[vaccinesAverage.length - 1].daily_moderna
-      const pfizer = vaccinesAverage[vaccinesAverage.length - 1].daily_pfizer
-      const jandj = vaccinesAverage[vaccinesAverage.length - 1].daily_jandj
+    drawVaccines(vaccinesHistory) {
+      const vaccinesLastWeek = vaccinesHistory.slice(vaccinesHistory.length - 7, vaccinesHistory.length)
+
+      const moderna = vaccinesLastWeek.map(v => v.daily_moderna).reduce( (sum, current) => sum + current, 0)
+      const pfizer = vaccinesLastWeek.map(v => v.daily_pfizer).reduce( (sum, current) => sum + current, 0)
+      const jandj = vaccinesLastWeek.map(v => v.daily_jandj).reduce( (sum, current) => sum + current, 0)
+
+      const total = moderna + pfizer + jandj
+
+      const moderna_p = moderna / total
+      const pfizer_p = pfizer / total
+      const jandj_p = jandj / total
 
       Highcharts.setOptions({
         lang: {
@@ -45,15 +53,15 @@ export default {
         })
       });
 
-      var chart = Highcharts.chart('vaccinePieContainer', {
+      var typeChart = Highcharts.chart('vaccineTypePieContainer', {
         chart: {
             plotBackgroundColor: null,
             plotBorderWidth: null,
             plotShadow: false,
-            type: 'pie'
+            type: 'pie',
         },
         title: {
-            text: 'Colorado Adult COVID Vaccine Rate'
+            text: "7 Days of Vaccine Types Administered"
         },
         tooltip: {
             pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -69,32 +77,32 @@ export default {
                 cursor: 'pointer',
                 dataLabels: {
                     enabled: true,
-                    format: '<b>{point.name}</b>: {point.percentage:.1f}%  ({point.people} people)',
+                    format: '<b>{point.name}</b>: {point.percentage:.1f}%  ({point.vaccines} vaccines)',
                     padding: 10
                 }
             }
         },
         series: [{
-          name: 'Vaccination Rate',
+          name: 'Vaccinations By Type',
           colorByPoint: true,
           data: [{
-            name: 'Unvaccinated Adults',
-            y: unvaccinated * 100,
-            people: numberWithCommas(population - one_dose - fully_immunized)
+            name: 'Moderna',
+            y: moderna_p * 100,
+            vaccines: numberWithCommas(moderna)
           }, {
-            name: 'Received One Dose',
-            y: one_dose_percentage * 100,
-            people: numberWithCommas(one_dose)
+            name: 'Pfizer',
+            y: pfizer_p * 100,
+            vaccines: numberWithCommas(pfizer)
           }, {
-            name: 'Fully Immunized',
-            y: fully_immunized_percentage * 100,
-            people: numberWithCommas(fully_immunized)
+            name: 'J&J',
+            y: jandj_p * 100,
+            vaccines: numberWithCommas(jandj)
           }
           ]
         }],
         
       })
-      chart.reflow()
+      typeChart.reflow()
     }
   },
 

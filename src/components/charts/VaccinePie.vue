@@ -1,7 +1,6 @@
 <template>
   <div class="pie-box">
       <div id="vaccinePieContainer"></div>
-      <p>*One dose is for Pfizer or Moderna. Fully immunized includes J&J</p>
   </div>
 </template>
 
@@ -10,9 +9,6 @@ var Highcharts = require('highcharts');
 import { numberWithCommas } from '../../utils/formatting.js'
 require('highcharts/modules/exporting')(Highcharts);
 
-// const unvaccinatedColor = "#CE4205";
-// const oneDoseColor = "#F2E63F";
-// const fullyImmunizedColor = "#84C132";
 const unvaccinatedColor = "#e6e6ff";
 const oneDoseColor = "#a199ff";
 const fullyImmunizedColor = "#00ff15";

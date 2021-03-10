@@ -15,7 +15,7 @@
             v-for="item in items.rows"
             :key="item[0]"
           >
-            <td v-for="val in item" :key="val">{{ val }}</td>
+            <td v-for="val in item" :key="val + Math.random().toString(36).substring(7)">{{ val }}</td>
           </tr>
         </tbody>
     </v-simple-table>
