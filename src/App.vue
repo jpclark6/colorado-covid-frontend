@@ -22,6 +22,7 @@ export default {
   methods: {
     changeCharts(shownCharts) {
       this.currentCharts = shownCharts
+      window.scrollTo(0,0)
     }
   },
 
