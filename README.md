@@ -83,7 +83,8 @@ You'll need to have Docker installed to run this app. You'll need to have npm an
 
 ## Roadmap
 
-1. Add/edit charts to improve the usefulness and readability of stats
+1. Add data tables with paginated raw data
+1. Add more data boxes with basic info from new graphs
 1. Add tests
 
 ## License
