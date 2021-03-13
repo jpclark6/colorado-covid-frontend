@@ -1,6 +1,6 @@
 <template>
-  <div class="pie-box mb-4">
-      <div id="vaccineTypePieContainer"></div>
+  <div class="pie-box">
+      <div id="vaccinePieTotalContainer"></div>
   </div>
 </template>
 
@@ -9,12 +9,12 @@ var Highcharts = require('highcharts');
 import { numberWithCommas } from '../../utils/formatting.js'
 require('highcharts/modules/exporting')(Highcharts);
 
-const pfizerColor = "#e6e6ff";
-const modernaColor = "#a199ff";
-const jandjColor = "#00ff15";
+const unvaccinatedColor = "#e6e6ff";
+const oneDoseColor = "#a199ff";
+const fullyImmunizedColor = "#00ff15";
 
 export default {
-  name: 'VaccineTypePie',
+  name: 'VaccinePieTotal',
 
   methods: {
     drawHighCharts() {
@@ -22,23 +22,18 @@ export default {
       this.drawVaccines(vaccinesHistory)
     },
     drawVaccines(vaccinesHistory) {
-      const vaccinesLastWeek = vaccinesHistory.slice(vaccinesHistory.length - 7, vaccinesHistory.length)
-
-      const moderna = vaccinesLastWeek.map(v => v.daily_moderna).reduce( (sum, current) => sum + current, 0)
-      const pfizer = vaccinesLastWeek.map(v => v.daily_pfizer).reduce( (sum, current) => sum + current, 0)
-      const jandj = vaccinesLastWeek.map(v => v.daily_jandj).reduce( (sum, current) => sum + current, 0)
-
-      const total = moderna + pfizer + jandj
-
-      const moderna_p = moderna / total
-      const pfizer_p = pfizer / total
-      const jandj_p = jandj / total
+      const fully_immunized = vaccinesHistory[vaccinesHistory.length - 1].fully_immunized_total
+      const one_dose = vaccinesHistory[vaccinesHistory.length - 1].one_dose_total - fully_immunized
+      const population = 5763976
+      const one_dose_percentage = one_dose / population
+      const fully_immunized_percentage = fully_immunized / population
+      const unvaccinated = (population - one_dose - fully_immunized) / population
 
       Highcharts.setOptions({
         lang: {
           thousandsSep: ','
         },
-        colors: Highcharts.map([pfizerColor, modernaColor, jandjColor], function (color) {
+        colors: Highcharts.map([unvaccinatedColor, oneDoseColor, fullyImmunizedColor], function (color) {
           return {
             radialGradient: {
                 cx: .5,
@@ -53,15 +48,15 @@ export default {
         })
       });
 
-      var typeChart = Highcharts.chart('vaccineTypePieContainer', {
+      var chart = Highcharts.chart('vaccinePieTotalContainer', {
         chart: {
             plotBackgroundColor: null,
             plotBorderWidth: null,
             plotShadow: false,
-            type: 'pie',
+            type: 'pie'
         },
         title: {
-            text: "Vaccine By Types (Last 7 days)"
+            text: 'Colorado COVID Vaccine Rate (All age groups)'
         },
         tooltip: {
             pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -77,32 +72,32 @@ export default {
                 cursor: 'pointer',
                 dataLabels: {
                     enabled: true,
-                    format: '<b>{point.name}</b>: {point.percentage:.1f}%  ({point.vaccines} vaccines)',
+                    format: '<b>{point.name}</b>: {point.percentage:.1f}%  ({point.people} people)',
                     padding: 10
                 }
             }
         },
         series: [{
-          name: 'Vaccinations By Type',
+          name: 'Vaccination Rate',
           colorByPoint: true,
           data: [{
-            name: 'Moderna',
-            y: moderna_p * 100,
-            vaccines: numberWithCommas(moderna)
+            name: 'Unvaccinated',
+            y: unvaccinated * 100,
+            people: numberWithCommas(population - one_dose - fully_immunized)
           }, {
-            name: 'Pfizer',
-            y: pfizer_p * 100,
-            vaccines: numberWithCommas(pfizer)
+            name: 'Received One Dose',
+            y: one_dose_percentage * 100,
+            people: numberWithCommas(one_dose)
           }, {
-            name: 'J&J',
-            y: jandj_p * 100,
-            vaccines: numberWithCommas(jandj)
+            name: 'Fully Immunized',
+            y: fully_immunized_percentage * 100,
+            people: numberWithCommas(fully_immunized)
           }
           ]
         }],
         
       })
-      typeChart.reflow()
+      chart.reflow()
     }
   },
 

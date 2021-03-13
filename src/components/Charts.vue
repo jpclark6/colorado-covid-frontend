@@ -19,9 +19,14 @@
         <VaccinePie class="mb-8 mt-4" :readyToChart="trigger" :covidData="covidData"/>
       </div>
 
+
       <div v-show="trigger && showChart(shownCharts, 'generalStats')">
         <GeneralStats class="mb-8 mt-4" :readyToChart="trigger" :covidData="covidData"/>
       </div>
+    </div>
+
+    <div v-show="trigger && showChart(shownCharts, 'vaccinePieTotal')" >
+      <VaccinePieTotal class="mb-8 mt-4" :readyToChart="trigger" :covidData="covidData"/>
     </div>
 
     <Vaccines v-show="trigger && showChart(shownCharts, 'vaccinesChart')" class="mb-8" :readyToChart="trigger" :covidData="covidData"/>
@@ -57,6 +62,7 @@ const axios = require('axios');
 import Vaccines from './charts/Vaccines.vue'
 import VaccineTypes from './charts/VaccineTypes.vue'
 import VaccinePie from './charts/VaccinePie.vue'
+import VaccinePieTotal from './charts/VaccinePieTotal.vue'
 import VaccineTypePie from './charts/VaccineTypePie.vue'
 import Cases from './charts/Cases.vue'
 import Hospitalized from './charts/Hospitalized.vue'
@@ -79,6 +85,7 @@ export default {
     Vaccines,
     VaccineTypes,
     VaccinePie,
+    VaccinePieTotal,
     VaccineTypePie,
     Cases,
     OneTwo,
@@ -111,7 +118,7 @@ export default {
 
   methods: {
     showChart(selection, chart) {
-      // caseStats, vaccineStats, vaccinePie, generalStats, vaccinesChart, casesChart, deathsChart, hospitalizedChart, hospitalizedCurrentlyChart, oneTwoChart, vaccineTypePie, vaccineTypesChart
+      // caseStats, vaccineStats, vaccinePie, vaccinePieTotal, generalStats, vaccinesChart, casesChart, deathsChart, hospitalizedChart, hospitalizedCurrentlyChart, oneTwoChart, vaccineTypePie, vaccineTypesChart, rawVaccineTable, rawCasesTable
       const key = {
         overview: [
           'caseStats', 'vaccineStats', 'vaccinePie', 'generalStats', 'vaccinesChart', 'casesChart', 'hospitalizedCurrentlyChart', 'rawVaccineTable', 'rawCasesTable'
@@ -120,7 +127,7 @@ export default {
           'caseStats', 'casesChart', 'rawCasesTable'
         ],
         vaccines: [
-          'vaccineStats', 'vaccinePie', 'vaccinesChart', 'vaccineTypesChart', 'vaccineTypePie', 'oneTwoChart', 'rawVaccineTable'
+          'vaccineStats', 'vaccinePie', 'vaccinesChart', 'vaccineTypesChart', 'vaccineTypePie', 'oneTwoChart', 'rawVaccineTable', 'vaccinePieTotal'
         ], 
         hospitalizations: [
           'hospitalizedChart', 'hospitalizedCurrentlyChart', 'rawCasesTable'
@@ -129,7 +136,7 @@ export default {
           'deathsChart', 'rawCasesTable'
         ],
         all: [
-          'caseStats', 'vaccineStats', 'vaccinePie', 'generalStats', 'vaccinesChart', 'casesChart', 'deathsChart', 'hospitalizedChart', 'hospitalizedCurrentlyChart', 'oneTwoChart', 'vaccineTypePie', 'vaccineTypesChart', 'rawVaccineTable', 'rawCasesTable'
+          'caseStats', 'vaccineStats', 'vaccinePie', 'generalStats', 'vaccinesChart', 'casesChart', 'deathsChart', 'hospitalizedChart', 'hospitalizedCurrentlyChart', 'oneTwoChart', 'vaccineTypePie', 'vaccineTypesChart', 'rawVaccineTable', 'rawCasesTable', 'vaccinePieTotal'
         ]
       }
       return key[selection].includes(chart)
