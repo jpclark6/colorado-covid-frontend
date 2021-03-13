@@ -32,6 +32,8 @@ export default {
           y: day.daily_moderna
         }
       ));
+      formattedModernaAverage = formattedModernaAverage.slice(0, formattedModernaAverage.length - 1)
+
       let formattedModernaHistory = []
       vaccinesHistory.forEach(day => formattedModernaHistory.push(
         {
@@ -39,6 +41,7 @@ export default {
           y: day.daily_moderna
         }
       ))
+      formattedModernaHistory = formattedModernaHistory.slice(0, formattedModernaHistory.length - 1)
       
       let formattedPfizerAverage = []
       vaccinesAverage.forEach(day => formattedPfizerAverage.push(
@@ -47,6 +50,8 @@ export default {
           y: day.daily_pfizer
         }
       ));
+      formattedPfizerAverage = formattedPfizerAverage.slice(0, formattedPfizerAverage.length - 1)
+      
       let formattedPfizerHistory = []
       vaccinesHistory.forEach(day => formattedPfizerHistory.push(
         {
@@ -54,6 +59,7 @@ export default {
           y: day.daily_pfizer
         }
       ))
+      formattedPfizerHistory = formattedPfizerHistory.slice(0, formattedPfizerHistory.length - 1)
 
       let formattedJandJAverage = []
       vaccinesAverage.forEach(day => formattedJandJAverage.push(
@@ -62,6 +68,8 @@ export default {
           y: day.daily_jandj
         }
       ));
+      formattedJandJAverage = formattedJandJAverage.slice(0, formattedJandJAverage.length - 1)
+
       let formattedJandJHistory = []
       vaccinesHistory.forEach(day => formattedJandJHistory.push(
         {
@@ -69,6 +77,7 @@ export default {
           y: day.daily_jandj
         }
       ))
+      formattedJandJHistory = formattedJandJHistory.slice(0, formattedJandJHistory.length - 1)
 
       Highcharts.setOptions({
         lang: {

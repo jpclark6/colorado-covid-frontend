@@ -62,21 +62,6 @@ export default {
             distributedIncrease: v.distributed_increase,
             distributedCumulative: v.distrubuted_total,
             totalProviders: v.total_vaccine_providers,
-            // dailyQty: numberWithCommas(v.daily_qty),
-            // cumulativeTotal: numberWithCommas(v.daily_cumulative),
-            // dailyOneDose: numberWithCommas(v.one_dose_increase),
-            // dailyFullyImmunized: numberWithCommas(v.fully_immunized_increase),
-            // dailyJandJ: numberWithCommas(v.daily_jandj),
-            // dailyModerna: numberWithCommas(v.daily_moderna),
-            // dailyPfizer: numberWithCommas(v.daily_pfizer),
-            // cumulativeFullyImmunized: numberWithCommas(v.fully_immunized_total),
-            // cumulativeJandJ: numberWithCommas(v.jandj_total),
-            // cumulativeModerna: numberWithCommas(v.moderna_total),
-            // cumulativePfizer: numberWithCommas(v.pfizer_total),
-            // cumulativeOneDose: numberWithCommas(v.one_dose_total),
-            // distributedIncrease: numberWithCommas(v.distributed_increase),
-            // distributedCumulative: numberWithCommas(v.distrubuted_total),
-            // totalProviders: numberWithCommas(v.total_vaccine_providers),
           } 
           return data
         }
