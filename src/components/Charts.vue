@@ -38,6 +38,7 @@
 
     <!-- raw data tables -->
     <RawVaccines v-show="trigger && showChart(shownCharts, 'rawVaccineTable')" class="mb-8" :readyToChart="trigger" :covidData="covidData"/>
+    <RawCases v-show="trigger && showChart(shownCharts, 'rawCasesTable')" class="mb-8" :readyToChart="trigger" :covidData="covidData"/>
 
 
     <p class="mx-6">*Data is updated daily in the evening as soon as it's available from the government APIs, usually around 6PM MST.
@@ -65,6 +66,7 @@ import Deaths from './charts/Deaths.vue'
 import DataBox from './DataBox.vue'
 import GeneralStats from './charts/GeneralStats.vue'
 import RawVaccines from './charts/RawVaccines.vue'
+import RawCases from './charts/RawCases.vue'
 import Spinner from './Spinner.vue'
 import { numberWithCommas } from '../utils/formatting.js'
 
@@ -87,6 +89,7 @@ export default {
     GeneralStats,
     Spinner,
     RawVaccines,
+    RawCases,
   },
 
   data() {
@@ -111,22 +114,22 @@ export default {
       // caseStats, vaccineStats, vaccinePie, generalStats, vaccinesChart, casesChart, deathsChart, hospitalizedChart, hospitalizedCurrentlyChart, oneTwoChart, vaccineTypePie, vaccineTypesChart
       const key = {
         overview: [
-          'caseStats', 'vaccineStats', 'vaccinePie', 'generalStats', 'vaccinesChart', 'casesChart', 'hospitalizedCurrentlyChart', 'rawVaccineTable'
+          'caseStats', 'vaccineStats', 'vaccinePie', 'generalStats', 'vaccinesChart', 'casesChart', 'hospitalizedCurrentlyChart', 'rawVaccineTable', 'rawCasesTable'
         ],
         cases: [
-          'caseStats', 'casesChart'
+          'caseStats', 'casesChart', 'rawCasesTable'
         ],
         vaccines: [
           'vaccineStats', 'vaccinePie', 'vaccinesChart', 'vaccineTypesChart', 'vaccineTypePie', 'oneTwoChart', 'rawVaccineTable'
         ], 
         hospitalizations: [
-          'hospitalizedChart', 'hospitalizedCurrentlyChart'
+          'hospitalizedChart', 'hospitalizedCurrentlyChart', 'rawCasesTable'
         ],
         deaths: [
-          'deathsChart'
+          'deathsChart', 'rawCasesTable'
         ],
         all: [
-          'caseStats', 'vaccineStats', 'vaccinePie', 'generalStats', 'vaccinesChart', 'casesChart', 'deathsChart', 'hospitalizedChart', 'hospitalizedCurrentlyChart', 'oneTwoChart', 'vaccineTypePie', 'vaccineTypesChart', 'rawVaccineTable'
+          'caseStats', 'vaccineStats', 'vaccinePie', 'generalStats', 'vaccinesChart', 'casesChart', 'deathsChart', 'hospitalizedChart', 'hospitalizedCurrentlyChart', 'oneTwoChart', 'vaccineTypePie', 'vaccineTypesChart', 'rawVaccineTable', 'rawCasesTable'
         ]
       }
       return key[selection].includes(chart)

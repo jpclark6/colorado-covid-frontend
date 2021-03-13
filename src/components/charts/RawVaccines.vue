@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-btn depressed color="#e6e6ff" class="mt-5" @click="toggle = !toggle">
+    <v-btn depressed color="#e6e6ff" class="my-2" @click="toggle = !toggle">
       {{ toggle ? "Hide" : "Show" }} Raw Vaccine Data
     </v-btn>
     <div v-show='toggle'>
@@ -11,7 +11,6 @@
 
 <script>
 import DataTable from '../DataTable.vue'
-import { numberWithCommas } from '../../utils/formatting.js'
 
 export default {
   name: 'RawVaccines',

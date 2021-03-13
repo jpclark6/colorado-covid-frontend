@@ -1,5 +1,5 @@
 <template>
-  <div class="pie-box">
+  <div class="pie-box mb-4">
       <div id="vaccineTypePieContainer"></div>
   </div>
 </template>
