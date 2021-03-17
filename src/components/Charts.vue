@@ -224,11 +224,13 @@ export default {
       }
     },
     updateLastUpdatedCasesTime(casesHistory) {
-      const time = new Date(casesHistory[casesHistory.length - 1].created_at)
+      var time = new Date(casesHistory[casesHistory.length - 1].created_at)
+      time.setHours(time.getHours() + 1) // remove after daylight savings happens in Europe
       this.lastCasesUpdate = time.toLocaleString()
     },
     updateLastUpdatedVaccinesTime(vaccinesHistory) {
-      const time = new Date(vaccinesHistory[vaccinesHistory.length - 1].created_at)
+      var time = new Date(vaccinesHistory[vaccinesHistory.length - 1].created_at)
+      time.setHours(time.getHours() + 1) // remove after daylight savings happens in Europe
       this.lastVaccinesUpdate = time.toLocaleString()
     }
   }
