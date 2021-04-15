@@ -77,7 +77,7 @@ export default {
           title: {
             text: 'Vaccines'
           },
-          max: 40000
+          max: 60000
         },
 
         xAxis: {
