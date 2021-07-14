@@ -57,7 +57,8 @@ export default {
           title: {
             text: 'Vaccines Given Daily'
           },
-          min: 0
+          min: 0,
+          max: 75000
         },
 
         xAxis: {

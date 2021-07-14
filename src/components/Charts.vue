@@ -3,6 +3,11 @@
     <Spinner v-show="!trigger" />
 
     <p class="m-3"> Data updated daily in the evening (typically between 4:30-6pm).</p>
+    <p class="m-3"><b> NOTE: In June the state changed their vaccine API, and given the
+        decreased case rates and high vaccine rates, I will no longer be updating
+        the code to fix this. For the latest data visit <a href='https://covid19.colorado.gov/vaccine-data-dashboard'>
+        Colorado's vaccine data</a></b>
+    </p>
 
     <div class="d-flex justify-center  flex-wrap align-center" v-show="trigger" id="flex-wrapper">
       <div class="mx-5" v-show="trigger && showChart(shownCharts, 'caseStats')">
